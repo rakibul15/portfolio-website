@@ -1,44 +1,114 @@
 @import "tailwindcss";
 
 :root {
-  /* Light mode colors - bright and clean */
-  --background: #ffffff;
-  --foreground: #1e293b;
-  --primary: #7c3aed;
-  --primary-foreground: #ffffff;
-  --secondary: #f8fafc;
-  --secondary-foreground: #1e293b;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --accent: #8b5cf6;
-  --accent-foreground: #ffffff;
-  --border: #e2e8f0;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --ink: #0d0d0d;
+  --paper: #faf9f7;
+  --paper2: #f3f1ed;
+  --paper3: #ebe7e0;
+  --stroke: #d4cfc6;
+  --stroke2: #b8b0a4;
+  --red: #c0392b;
+  --muted: #7a746c;
+  --faint: #a09890;
 }
 
 .dark {
-  /* Dark mode colors */
-  --background: #0f172a;
-  --foreground: #f1f5f9;
-  --primary: #8b5cf6;
-  --primary-foreground: #ffffff;
-  --secondary: #1e293b;
-  --secondary-foreground: #f1f5f9;
-  --muted: #1e293b;
-  --muted-foreground: #94a3b8;
-  --accent: #a78bfa;
-  --accent-foreground: #ffffff;
-  --border: #334155;
+  --ink: #e8e4de;
+  --paper: #141210;
+  --paper2: #1c1a17;
+  --paper3: #252320;
+  --stroke: #302d28;
+  --stroke2: #403c36;
+  --red: #e74c3c;
+  --muted: #8a847c;
+  --faint: #5a554e;
+}
+
+@theme inline {
+  --color-background: var(--paper);
+  --color-foreground: var(--ink);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-paper2: var(--paper2);
+  --color-paper3: var(--paper3);
+  --color-stroke: var(--stroke);
+  --color-stroke2: var(--stroke2);
+  --color-accent: var(--red);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --font-serif: var(--font-playfair);
+  --font-mono: var(--font-jetbrains);
+  --font-sans: var(--font-outfit);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* Selection */
+::selection {
+  background: var(--red);
+  color: var(--paper);
+}
+
+/* Focus visible — accessibility */
+:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 2px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--paper);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--stroke2);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Always-dark sections (Philosophy, Marquee) */
+.section-dark {
+  --ink: #faf9f7;
+  --paper: #0d0d0d;
+  --stroke: #2a2725;
+  --stroke2: #3a3632;
+  --muted: #a09890;
+  --faint: #7a746c;
+}
+.dark .section-dark {
+  --ink: #faf9f7;
+  --paper: #1e1c19;
+  --stroke: #332f2b;
+  --stroke2: #434038;
+  --red: #e74c3c;
+  --muted: #a09890;
+  --faint: #7a746c;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
