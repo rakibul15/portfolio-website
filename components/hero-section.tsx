@@ -141,9 +141,9 @@ export function HeroSection() {
           className="flex flex-col sm:flex-row justify-between items-start sm:items-end pt-10 border-t border-stroke gap-8 will-change-transform"
         >
           <p className="max-w-[360px] text-[15px] text-muted leading-[1.75] font-light">
-            5+ years crafting high-performance UIs. From travel platforms to
-            delivery apps&mdash;I engineer experiences that are fast, accessible,
-            and scalable.
+            I&apos;ve shipped travel platforms serving 50K+ users and delivery
+            systems tracking 1000+ orders in real-time. I don&apos;t just build
+            UIs&mdash;I architect the frontend behind them.
           </p>
           <div className="flex gap-3 shrink-0">
             <MagneticButton strength={0.3}>

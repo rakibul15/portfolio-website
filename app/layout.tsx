@@ -21,40 +21,116 @@ const outfit = Outfit({
   weight: ["300", "400", "500"],
 });
 
+const siteUrl = "https://rakibulhasan.dev";
+
 export const metadata: Metadata = {
-  title: "Rakibul Hasan — Senior Frontend Developer",
+  title: {
+    default: "Rakibul Hasan — Senior Frontend Developer | React & Next.js Expert",
+    template: "%s | Rakibul Hasan",
+  },
   description:
-    "Senior Frontend Developer with 5+ years of experience in React, Next.js, TypeScript, and modern web technologies. Building scalable and accessible web applications.",
+    "Senior Frontend Developer with 5+ years of experience building scalable web applications with React, Next.js, and TypeScript. Shipped travel platforms serving 50K+ users and real-time delivery systems. Based in Dhaka, available globally.",
   keywords: [
-    "Frontend Developer",
-    "React",
-    "Next.js",
-    "TypeScript",
-    "Web Developer",
     "Rakibul Hasan",
-    "Senior Frontend Engineer",
+    "Rakibul Hasan portfolio",
+    "Rakibul Hasan frontend developer",
+    "Senior Frontend Developer",
+    "Frontend Developer Bangladesh",
+    "React Developer",
+    "Next.js Developer",
+    "TypeScript Developer",
+    "Web Developer Dhaka",
+    "Frontend Engineer",
+    "React Expert",
     "Portfolio",
+    "Hire Frontend Developer",
+    "TechnoNext",
+    "FirstTrip Developer",
   ],
-  authors: [{ name: "Rakibul Hasan" }],
+  authors: [{ name: "Rakibul Hasan", url: siteUrl }],
   creator: "Rakibul Hasan",
-  metadataBase: new URL("https://rakibulhasan.dev"),
+  publisher: "Rakibul Hasan",
+  metadataBase: new URL(siteUrl),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "Rakibul Hasan — Senior Frontend Developer",
     description:
-      "I craft interfaces that perform. 5+ years building scalable web applications with React, Next.js & TypeScript.",
+      "I craft interfaces that perform. 5+ years building scalable web applications with React, Next.js & TypeScript. Shipped products serving 50K+ users.",
+    url: siteUrl,
     type: "website",
-    siteName: "Rakibul Hasan Portfolio",
+    siteName: "Rakibul Hasan — Portfolio",
     locale: "en_US",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Rakibul Hasan — Senior Frontend Developer",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Rakibul Hasan — Senior Frontend Developer",
     description:
-      "I craft interfaces that perform. 5+ years building scalable web applications with React, Next.js & TypeScript.",
+      "I craft interfaces that perform. 5+ years building scalable web apps with React, Next.js & TypeScript.",
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    // Add your Google Search Console verification code here:
+    // google: "your-verification-code",
+  },
+};
+
+// JSON-LD Structured Data
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Rakibul Hasan",
+  jobTitle: "Senior Frontend Developer",
+  description:
+    "Senior Frontend Developer with 5+ years of experience in React, Next.js, TypeScript. Building scalable and accessible web applications.",
+  url: siteUrl,
+  image: `${siteUrl}/photo.jpg`,
+  email: "rakib251193@gmail.com",
+  telephone: "+8801777871569",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Dhaka",
+    addressCountry: "BD",
+  },
+  sameAs: [
+    "https://www.linkedin.com/in/rakibul-hasan-514649130/",
+    "https://github.com/rakibulhasan",
+  ],
+  knowsAbout: [
+    "React",
+    "Next.js",
+    "TypeScript",
+    "JavaScript",
+    "Frontend Development",
+    "Web Performance",
+    "Responsive Design",
+    "REST APIs",
+    "Redux",
+    "Tailwind CSS",
+  ],
+  worksFor: {
+    "@type": "Organization",
+    name: "TechnoNext Ltd",
   },
 };
 
@@ -66,6 +142,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `
