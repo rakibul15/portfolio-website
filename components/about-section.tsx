@@ -65,7 +65,7 @@ export function AboutSection() {
             <div className="w-[180px] h-[220px] lg:w-[200px] lg:h-[260px] border border-stroke overflow-hidden relative bg-paper2">
               {!imgError ? (
                 <Image
-                  src="/photo.jpg"
+                  src="/photo.png"
                   alt="Rakibul Hasan"
                   fill
                   className="object-cover"

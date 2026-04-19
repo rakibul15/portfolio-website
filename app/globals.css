@@ -89,24 +89,6 @@ body {
   }
 }
 
-/* Always-dark sections (Philosophy, Marquee) */
-.section-dark {
-  --ink: #faf9f7;
-  --paper: #0d0d0d;
-  --stroke: #2a2725;
-  --stroke2: #3a3632;
-  --muted: #a09890;
-  --faint: #7a746c;
-}
-.dark .section-dark {
-  --ink: #faf9f7;
-  --paper: #1e1c19;
-  --stroke: #332f2b;
-  --stroke2: #434038;
-  --red: #e74c3c;
-  --muted: #a09890;
-  --faint: #7a746c;
-}
 
 @keyframes marquee {
   0% { transform: translateX(0); }

@@ -21,7 +21,7 @@ const skills = [
 
 export function Marquee() {
   return (
-    <div className="section-dark bg-paper py-5 overflow-hidden border-b border-stroke">
+    <div className="bg-paper3 py-5 overflow-hidden border-y border-stroke">
       <div
         className="flex whitespace-nowrap hover:[animation-play-state:paused]"
         style={{ animation: 'marquee 35s linear infinite' }}
@@ -29,7 +29,7 @@ export function Marquee() {
         {[...skills, ...skills].map((skill, i) => (
           <span
             key={i}
-            className="font-mono text-[11px] tracking-[0.12em] uppercase text-ink/70 px-10 flex items-center gap-10"
+            className="font-mono text-[11px] tracking-[0.12em] uppercase text-muted px-10 flex items-center gap-10"
           >
             {skill}
             <span className="w-1 h-1 bg-accent rounded-full shrink-0" />

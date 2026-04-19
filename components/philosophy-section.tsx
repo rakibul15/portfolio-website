@@ -39,14 +39,14 @@ export function PhilosophySection() {
   return (
     <section
       id="philosophy"
-      className="section-dark bg-paper text-ink px-6 lg:px-14 py-16 lg:py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 border-b border-stroke"
+      className="bg-paper2 px-6 lg:px-14 py-16 lg:py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 border-b border-stroke"
     >
       {/* Left — Quote */}
       <div>
         <motion.span
           ref={ghostRef}
           style={{ y: ghostY }}
-          className="font-serif text-[80px] lg:text-[120px] font-black text-ink/10 leading-none mb-[-20px] block will-change-transform"
+          className="font-serif text-[80px] lg:text-[120px] font-black text-stroke leading-none mb-[-20px] block will-change-transform"
         >
           05
         </motion.span>
@@ -56,10 +56,10 @@ export function PhilosophySection() {
         <motion.div
           ref={quoteRef}
           style={{ y: quoteY }}
-          className="font-serif text-[clamp(24px,3.5vw,44px)] font-normal italic leading-[1.25] tracking-tight will-change-transform"
+          className="font-serif text-[clamp(24px,3.5vw,44px)] font-normal italic leading-[1.25] tracking-tight text-ink will-change-transform"
         >
           &ldquo;Great frontend is{' '}
-          <strong className="not-italic font-black text-ink">
+          <strong className="not-italic font-black">
             invisible.
           </strong>{' '}
           The user never thinks about it&mdash;they just{' '}
@@ -75,14 +75,14 @@ export function PhilosophySection() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: index * 0.15 }}
-            className={`py-6 border-t border-ink/10 ${
-              index === pillars.length - 1 ? 'border-b border-b-ink/10' : ''
+            className={`py-6 border-t border-stroke ${
+              index === pillars.length - 1 ? 'border-b' : ''
             }`}
           >
-            <div className="font-mono text-[11px] tracking-[0.1em] uppercase text-ink/45 mb-2.5">
+            <div className="font-mono text-[11px] tracking-[0.1em] uppercase text-faint mb-2.5">
               {pillar.title}
             </div>
-            <div className="text-[14px] text-ink/60 leading-[1.65] font-light">
+            <div className="text-[14px] text-muted leading-[1.65] font-light">
               {pillar.body}
             </div>
           </motion.div>
