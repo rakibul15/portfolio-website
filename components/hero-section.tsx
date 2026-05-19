@@ -196,7 +196,7 @@ export function HeroSection() {
           className="p-8 lg:p-11 flex flex-col justify-between overflow-hidden will-change-transform min-h-[200px] lg:min-h-0"
         >
           <div className="font-serif text-[64px] lg:text-[80px] font-black leading-none">
-            <Counter value={50} suffix="+" duration={2} />
+            <Counter value={20} suffix="+" duration={2} />
           </div>
           <div>
             <div className="font-mono text-[11px] text-muted tracking-[0.1em] uppercase mt-3">
