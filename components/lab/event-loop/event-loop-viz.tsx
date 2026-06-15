@@ -32,8 +32,12 @@ export function EventLoopViz() {
 
   const example: ELExample = examples[exampleIndex]
   const totalSteps = example.steps.length
-  const step = example.steps[stepIndex]
-  const isAtEnd = stepIndex >= totalSteps - 1
+  // During example switch, the queued setStepIndex(0) has not applied to this
+  // render yet — clamp to a valid index to avoid an out-of-bounds read.
+  const effectiveStepIndex =
+    prevExampleIndex !== exampleIndex ? 0 : stepIndex
+  const step = example.steps[effectiveStepIndex]
+  const isAtEnd = effectiveStepIndex >= totalSteps - 1
 
   const reset = useCallback(() => {
     setStepIndex(0)
@@ -101,7 +105,7 @@ export function EventLoopViz() {
             </button>
             <button
               onClick={prev}
-              disabled={stepIndex === 0}
+              disabled={effectiveStepIndex === 0}
               className="p-2 border border-stroke text-muted hover:text-ink hover:border-ink transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:text-muted disabled:hover:border-stroke"
               aria-label="Previous step"
               title="Step back"
@@ -162,7 +166,7 @@ export function EventLoopViz() {
             <div className="font-mono text-[11px] text-muted tracking-[0.06em]">
               Step{' '}
               <span className="text-ink">
-                {String(stepIndex + 1).padStart(2, '0')}
+                {String(effectiveStepIndex + 1).padStart(2, '0')}
               </span>
               {' / '}
               {String(totalSteps).padStart(2, '0')}

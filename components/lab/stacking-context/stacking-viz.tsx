@@ -30,8 +30,10 @@ export function StackingViz() {
 
   const scenario: StackingScenario = scenarios[scenarioIndex]
   const totalSteps = scenario.steps.length
-  const step = scenario.steps[stepIndex]
-  const isAtEnd = stepIndex >= totalSteps - 1
+  const effectiveStepIndex =
+    prevScenarioIndex !== scenarioIndex ? 0 : stepIndex
+  const step = scenario.steps[effectiveStepIndex]
+  const isAtEnd = effectiveStepIndex >= totalSteps - 1
 
   useEffect(() => {
     if (!isPlaying || isAtEnd) {
@@ -94,7 +96,7 @@ export function StackingViz() {
             </button>
             <button
               onClick={prev}
-              disabled={stepIndex === 0}
+              disabled={effectiveStepIndex === 0}
               className="p-2 border border-stroke text-muted hover:text-ink hover:border-ink transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:text-muted disabled:hover:border-stroke"
               aria-label="Previous step"
             >
@@ -151,7 +153,7 @@ export function StackingViz() {
             </div>
             <div className="font-mono text-[11px] text-muted tracking-[0.06em]">
               Step{' '}
-              <span className="text-ink">{String(stepIndex + 1).padStart(2, '0')}</span>
+              <span className="text-ink">{String(effectiveStepIndex + 1).padStart(2, '0')}</span>
               {' / '}
               {String(totalSteps).padStart(2, '0')}
             </div>
