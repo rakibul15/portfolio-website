@@ -40,10 +40,10 @@ const visualizers: Omit<VizCardProps, 'index' | 'isInView'>[] = [
   {
     num: '05',
     name: 'useEffect vs useLayoutEffect',
-    sub: 'Timeline of mount, paint, and effect — where each hook fires',
+    sub: 'Lifecycle timeline showing where each hook fires — and the flicker that justifies the layout one',
     tags: ['React', 'Hooks'],
     href: '/lab/effect-timing',
-    status: 'soon',
+    status: 'live',
   },
   {
     num: '06',
