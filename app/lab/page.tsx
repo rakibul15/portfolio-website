@@ -93,6 +93,14 @@ const visualizers: Omit<VizCardProps, 'index' | 'isInView'>[] = [
     href: '/lab/bst',
     status: 'live',
   },
+  {
+    num: '12',
+    name: 'Heap',
+    sub: 'Sift up, sift down, O(n) heapify, top-K via min-heap — dual tree + array view, with TS + Go',
+    tags: ['Data Structures', 'Priority Queue'],
+    href: '/lab/heap',
+    status: 'live',
+  },
 ]
 
 const ease = [0.25, 0.1, 0.25, 1] as const
