@@ -22,23 +22,25 @@ const STATUS_LABEL: Record<CacheStatus, string> = {
   skip: 'Skipped',
 }
 
+// Semantic palette: hit = good (emerald), miss = bad (red), checking = active
+// (blue), storing = in-progress (amber), invalidated = wiped (purple-strike).
 const STATUS_BADGE: Record<CacheStatus, string> = {
   idle: 'border-stroke text-faint',
-  checking: 'border-ink text-ink',
-  hit: 'border-ink bg-ink text-paper',
-  miss: 'border-accent text-accent',
-  storing: 'border-ink text-ink bg-paper3',
-  invalidated: 'border-stroke2 text-muted line-through decoration-stroke2',
+  checking: 'border-lab-blue bg-lab-blue text-paper',
+  hit: 'border-lab-emerald bg-lab-emerald text-paper',
+  miss: 'border-accent bg-accent text-paper',
+  storing: 'border-lab-amber bg-lab-amber text-paper',
+  invalidated: 'border-lab-purple text-lab-purple line-through decoration-lab-purple',
   skip: 'border-stroke text-faint italic',
 }
 
 const CARD_BORDER: Record<CacheStatus, string> = {
   idle: 'border-stroke',
-  checking: 'border-ink',
-  hit: 'border-ink',
+  checking: 'border-lab-blue',
+  hit: 'border-lab-emerald',
   miss: 'border-accent',
-  storing: 'border-ink',
-  invalidated: 'border-stroke2',
+  storing: 'border-lab-amber',
+  invalidated: 'border-lab-purple',
   skip: 'border-stroke',
 }
 

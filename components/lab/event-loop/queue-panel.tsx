@@ -12,11 +12,16 @@ interface QueuePanelProps {
   count: number
 }
 
+// Tone palette for items moving through the runtime:
+//   default  → synchronous calls / generic frames
+//   callback → microtasks (Promise.then) — lab-amber
+//   task     → macrotasks (setTimeout, I/O) — lab-blue
+//   log      → console output / passive — neutral
 const toneClass: Record<NonNullable<ELItem['tone']>, string> = {
   default: 'border-stroke2 bg-paper text-ink',
-  callback: 'border-accent bg-paper text-ink',
-  task: 'border-stroke2 bg-paper2 text-ink',
-  log: 'border-stroke2 bg-paper text-muted',
+  callback: 'border-lab-amber bg-lab-amber-soft text-lab-amber font-medium',
+  task: 'border-lab-blue bg-lab-blue-soft text-lab-blue font-medium',
+  log: 'border-stroke bg-paper text-muted italic',
 }
 
 export function QueuePanel({ title, hint, items, variant, count }: QueuePanelProps) {
@@ -27,7 +32,15 @@ export function QueuePanel({ title, hint, items, variant, count }: QueuePanelPro
       {/* Header */}
       <div className="px-4 py-3 border-b border-stroke flex justify-between items-center">
         <div>
-          <div className="font-mono text-[10px] text-accent tracking-[0.16em] uppercase">
+          <div
+            className={`font-mono text-[10px] tracking-[0.16em] uppercase ${
+              variant === 'stack'
+                ? 'text-lab-purple'
+                : title.toLowerCase().includes('microtask')
+                  ? 'text-lab-amber'
+                  : 'text-lab-blue'
+            }`}
+          >
             {title}
           </div>
           <div className="font-mono text-[10px] text-faint tracking-[0.06em] mt-1">

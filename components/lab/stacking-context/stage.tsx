@@ -10,10 +10,15 @@ interface StageProps {
   showWinner: boolean
 }
 
+// accent → an antagonist box (the one that beats the modal in the bug scenarios)
+// ink    → the central / focused element (modal, hero)
+// paper3 → an ancestor that creates a stacking context — wrap in muted lab-purple
+//          to mark it as a "trap" element when the scenario is buggy
+// paper2 → background / generic
 const TONE_PAINTED: Record<StackingBox['tone'], string> = {
   accent: 'bg-accent text-paper border-accent',
-  ink: 'bg-ink text-paper border-ink',
-  paper3: 'bg-paper3 text-ink border-stroke2',
+  ink: 'bg-lab-blue text-paper border-lab-blue',
+  paper3: 'bg-lab-purple-soft text-lab-purple border-lab-purple',
   paper2: 'bg-paper2 text-muted border-stroke',
 }
 
@@ -98,7 +103,7 @@ export function Stage({
               className={`absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 border whitespace-nowrap font-mono text-[10px] tracking-[0.14em] uppercase ${
                 scenario.isBug
                   ? 'bg-accent border-accent text-paper'
-                  : 'bg-ink border-ink text-paper'
+                  : 'bg-lab-emerald border-lab-emerald text-paper'
               }`}
             >
               {scenario.isBug ? '⚠ bug — ' : '✓ '}

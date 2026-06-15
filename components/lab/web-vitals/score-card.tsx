@@ -29,8 +29,8 @@ const VITAL_GOOD: Record<Vital, string> = {
 
 const RATING_BADGE: Record<Rating, string> = {
   pending: 'border-stroke text-faint',
-  good: 'border-ink text-ink',
-  'needs-improvement': 'border-stroke2 text-muted',
+  good: 'border-lab-emerald bg-lab-emerald text-paper',
+  'needs-improvement': 'border-lab-amber bg-lab-amber text-paper',
   poor: 'border-accent bg-accent text-paper',
 }
 
@@ -43,8 +43,8 @@ const RATING_LABEL: Record<Rating, string> = {
 
 const RATING_BORDER: Record<Rating, string> = {
   pending: 'border-stroke',
-  good: 'border-ink',
-  'needs-improvement': 'border-stroke2',
+  good: 'border-lab-emerald',
+  'needs-improvement': 'border-lab-amber',
   poor: 'border-accent',
 }
 

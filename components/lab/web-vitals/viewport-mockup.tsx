@@ -11,7 +11,7 @@ interface ViewportMockupProps {
 
 const KIND_STYLE: Record<ViewportBlock['kind'], { painted: string; placeholder: string }> = {
   header: {
-    painted: 'bg-ink text-paper',
+    painted: 'bg-lab-blue text-paper',
     placeholder: 'bg-paper2 text-faint',
   },
   text: {
@@ -19,15 +19,15 @@ const KIND_STYLE: Record<ViewportBlock['kind'], { painted: string; placeholder: 
     placeholder: 'bg-paper2 text-faint border-stroke',
   },
   hero: {
-    painted: 'bg-paper3 text-ink border-stroke2',
+    painted: 'bg-lab-purple-soft text-lab-purple border-lab-purple',
     placeholder: 'bg-paper2 text-faint border-stroke',
   },
   ad: {
-    painted: 'bg-paper2 text-muted border-stroke2',
+    painted: 'bg-lab-amber-soft text-lab-amber border-lab-amber',
     placeholder: 'bg-paper2 text-faint border-stroke',
   },
   cta: {
-    painted: 'bg-paper text-ink border-ink',
+    painted: 'bg-lab-emerald text-paper border-lab-emerald',
     placeholder: 'bg-paper2 text-faint border-stroke',
   },
   footer: {

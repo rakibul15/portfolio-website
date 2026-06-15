@@ -16,14 +16,14 @@ const STATUS_LABEL: Record<OriginStatus, string> = {
 
 const STATUS_BADGE: Record<OriginStatus, string> = {
   idle: 'border-stroke text-faint',
-  fetching: 'border-accent text-accent',
-  responded: 'border-ink bg-ink text-paper',
+  fetching: 'border-lab-amber bg-lab-amber text-paper',
+  responded: 'border-lab-emerald bg-lab-emerald text-paper',
 }
 
 const BORDER: Record<OriginStatus, string> = {
   idle: 'border-stroke',
-  fetching: 'border-accent',
-  responded: 'border-ink',
+  fetching: 'border-lab-amber',
+  responded: 'border-lab-emerald',
 }
 
 export function OriginNode({ status, focused }: OriginNodeProps) {

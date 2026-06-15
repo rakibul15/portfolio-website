@@ -18,22 +18,27 @@ const STATUS_LABEL: Record<RenderStatus, string> = {
   'skipped-memo': 'memo skip',
 }
 
+// state-change = the source of the cascade (accent red)
+// scheduled    = queued, about to run (lab-blue)
+// rendering    = currently running the function (lab-amber)
+// committed    = done, output committed (lab-emerald)
+// skipped-memo = the memo optimization won (lab-purple, italic)
 const STATUS_BADGE: Record<RenderStatus, string> = {
   idle: 'border-stroke text-faint',
-  'state-change': 'border-accent text-paper bg-accent',
-  scheduled: 'border-stroke2 text-muted',
-  rendering: 'border-ink bg-ink text-paper',
-  committed: 'border-stroke text-faint',
-  'skipped-memo': 'border-stroke2 text-faint italic',
+  'state-change': 'border-accent bg-accent text-paper',
+  scheduled: 'border-lab-blue bg-lab-blue-soft text-lab-blue',
+  rendering: 'border-lab-amber bg-lab-amber text-paper',
+  committed: 'border-lab-emerald bg-lab-emerald text-paper',
+  'skipped-memo': 'border-lab-purple bg-lab-purple-soft text-lab-purple italic',
 }
 
 const CARD_BORDER: Record<RenderStatus, string> = {
   idle: 'border-stroke',
   'state-change': 'border-accent',
-  scheduled: 'border-stroke2',
-  rendering: 'border-ink',
-  committed: 'border-stroke',
-  'skipped-memo': 'border-stroke2',
+  scheduled: 'border-lab-blue',
+  rendering: 'border-lab-amber',
+  committed: 'border-lab-emerald',
+  'skipped-memo': 'border-lab-purple',
 }
 
 const CARD_BG: Record<RenderStatus, string> = {

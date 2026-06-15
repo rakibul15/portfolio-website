@@ -1,5 +1,7 @@
 'use client'
 
+import { motion } from 'framer-motion'
+
 interface CodePanelProps {
   code: string[]
   activeLine: number // 1-indexed; 0 means none
@@ -7,36 +9,71 @@ interface CodePanelProps {
 
 export function CodePanel({ code, activeLine }: CodePanelProps) {
   return (
-    <div className="border border-stroke">
-      <div className="px-4 py-3 border-b border-stroke flex justify-between items-center">
-        <div className="font-mono text-[10px] text-accent tracking-[0.16em] uppercase">
-          Source
+    <div className="border border-stroke bg-paper flex flex-col h-full">
+      <div className="px-4 py-3 border-b border-stroke flex justify-between items-center shrink-0">
+        <div className="flex items-center gap-2">
+          <div className="flex gap-1">
+            <span className="w-2 h-2 rounded-full bg-accent" />
+            <span className="w-2 h-2 rounded-full bg-lab-amber" />
+            <span className="w-2 h-2 rounded-full bg-lab-emerald" />
+          </div>
+          <div className="font-mono text-[10px] text-lab-blue tracking-[0.16em] uppercase ml-2">
+            Source
+          </div>
         </div>
         <div className="font-mono text-[10px] text-faint tracking-[0.06em]">
           {String(code.length).padStart(2, '0')} lines
         </div>
       </div>
-      <pre className="p-4 overflow-x-auto">
+      <pre className="p-4 overflow-x-auto overflow-y-auto flex-1 min-h-0">
         <code className="font-mono text-[12.5px] leading-[1.85] block">
           {code.map((line, i) => {
             const lineNum = i + 1
             const active = lineNum === activeLine
             return (
-              <div
+              <motion.div
                 key={i}
-                className={`flex gap-4 px-2 -mx-2 transition-colors ${
-                  active ? 'bg-paper3' : ''
-                }`}
+                layout
+                animate={{
+                  backgroundColor: active
+                    ? 'var(--lab-amber-soft)'
+                    : 'rgba(0,0,0,0)',
+                }}
+                transition={{ duration: 0.25 }}
+                className="flex items-center gap-3 px-2 -mx-2 relative"
               >
+                {/* Active line gutter marker */}
+                {active && (
+                  <motion.span
+                    layoutId="code-marker"
+                    className="absolute left-[-12px] top-0 bottom-0 w-[3px] bg-lab-amber"
+                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                  />
+                )}
                 <span
-                  className={`select-none w-6 text-right shrink-0 ${
-                    active ? 'text-accent' : 'text-faint'
+                  className={`select-none w-6 text-right shrink-0 transition-colors ${
+                    active ? 'text-lab-amber font-bold' : 'text-faint'
                   }`}
                 >
                   {String(lineNum).padStart(2, '0')}
                 </span>
-                <span className={active ? 'text-ink' : 'text-muted'}>{line}</span>
-              </div>
+                <span
+                  className={`transition-colors ${
+                    active ? 'text-ink font-medium' : 'text-muted'
+                  }`}
+                >
+                  {line || ' '}
+                </span>
+                {active && (
+                  <motion.span
+                    initial={{ opacity: 0, x: -4 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="ml-auto font-mono text-[9px] text-lab-amber tracking-[0.14em] uppercase shrink-0"
+                  >
+                    ▶ running
+                  </motion.span>
+                )}
+              </motion.div>
             )
           })}
         </code>

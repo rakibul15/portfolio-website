@@ -10,7 +10,7 @@ export function ConsolePanel({ output }: ConsolePanelProps) {
   return (
     <div className="border border-stroke flex flex-col">
       <div className="px-4 py-3 border-b border-stroke flex justify-between items-center">
-        <div className="font-mono text-[10px] text-accent tracking-[0.16em] uppercase">
+        <div className="font-mono text-[10px] text-lab-emerald tracking-[0.16em] uppercase">
           Console
         </div>
         <div className="font-mono text-[10px] text-faint tracking-[0.06em]">
@@ -37,7 +37,7 @@ export function ConsolePanel({ output }: ConsolePanelProps) {
                 transition={{ duration: 0.25 }}
                 className="font-mono text-[12px] leading-[1.7] flex gap-3"
               >
-                <span className="text-faint select-none">&gt;</span>
+                <span className="text-lab-emerald select-none">›</span>
                 <span className="text-ink">{line}</span>
               </motion.div>
             ))

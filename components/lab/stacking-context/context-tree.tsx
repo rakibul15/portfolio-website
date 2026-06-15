@@ -50,9 +50,9 @@ function TreeNodeRow({
         style={{ marginLeft: depth * 20 }}
         className={`border mb-1.5 transition-colors px-3 py-2.5 ${
           isHighlighted
-            ? 'border-accent bg-paper'
+            ? 'border-lab-amber bg-lab-amber-soft'
             : createsContext
-              ? 'border-stroke2 bg-paper2'
+              ? 'border-lab-purple bg-lab-purple-soft'
               : 'border-stroke bg-paper'
         }`}
       >
@@ -62,7 +62,7 @@ function TreeNodeRow({
               {box.label}
             </span>
             {createsContext && (
-              <span className="font-mono text-[9px] text-accent tracking-[0.14em] uppercase border border-accent px-1.5 py-[2px] leading-none">
+              <span className="font-mono text-[9px] text-lab-purple tracking-[0.14em] uppercase border border-lab-purple bg-lab-purple-soft px-1.5 py-[2px] leading-none">
                 new context
               </span>
             )}

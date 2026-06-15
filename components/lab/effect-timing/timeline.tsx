@@ -8,11 +8,15 @@ interface TimelineProps {
   statuses: EffectStep['phaseStatus']
 }
 
+// pending = not yet reached (faint)
+// active  = the phase happening NOW (lab-amber)
+// done    = already happened (lab-emerald subtle)
+// skipped = phase that won't run in this scenario (muted strike)
 const PILL: Record<PhaseStatus, string> = {
   pending: 'border-stroke text-faint bg-paper',
-  active: 'border-ink bg-ink text-paper',
-  done: 'border-stroke text-muted bg-paper',
-  skipped: 'border-stroke text-faint bg-paper2 line-through',
+  active: 'border-lab-amber bg-lab-amber text-paper',
+  done: 'border-lab-emerald bg-lab-emerald-soft text-lab-emerald',
+  skipped: 'border-stroke text-faint bg-paper2 line-through opacity-60',
 }
 
 export function Timeline({ phases, statuses }: TimelineProps) {
@@ -54,7 +58,7 @@ export function Timeline({ phases, statuses }: TimelineProps) {
                 {i < phases.length - 1 && (
                   <div
                     className={`hidden sm:flex items-center justify-center w-6 shrink-0 font-mono text-[14px] ${
-                      status === 'done' ? 'text-accent' : 'text-stroke2'
+                      status === 'done' ? 'text-lab-emerald' : 'text-stroke2'
                     } transition-colors`}
                     aria-hidden
                   >

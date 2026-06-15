@@ -21,19 +21,19 @@ const KIND_LABEL: Record<RSCProp['kind'], string> = {
 }
 
 const KIND_TINT: Record<RSCProp['kind'], string> = {
-  primitive: 'text-muted',
-  array: 'text-muted',
-  object: 'text-muted',
-  date: 'text-muted',
+  primitive: 'text-lab-blue',
+  array: 'text-lab-blue',
+  object: 'text-lab-blue',
+  date: 'text-lab-amber',
   function: 'text-accent',
-  'server-action': 'text-ink',
-  jsx: 'text-ink',
+  'server-action': 'text-lab-emerald',
+  jsx: 'text-lab-purple',
 }
 
 const STATUS_BADGE: Record<PropStatus, string> = {
   pending: 'border-stroke text-faint',
-  'in-transit': 'border-ink text-ink',
-  accepted: 'border-ink bg-ink text-paper',
+  'in-transit': 'border-lab-amber bg-lab-amber text-paper',
+  accepted: 'border-lab-emerald bg-lab-emerald text-paper',
   rejected: 'border-accent bg-accent text-paper',
 }
 
@@ -77,10 +77,16 @@ export function PropRow({ prop, status, side, focused }: PropRowProps) {
         focused
           ? status === 'rejected'
             ? 'border-accent'
-            : 'border-ink'
+            : status === 'accepted'
+              ? 'border-lab-emerald'
+              : status === 'in-transit'
+                ? 'border-lab-amber'
+                : 'border-ink'
           : status === 'rejected'
             ? 'border-accent'
-            : 'border-stroke'
+            : status === 'accepted'
+              ? 'border-lab-emerald/50'
+              : 'border-stroke'
       }`}
     >
       <div className="px-3 py-2.5 sm:px-4 sm:py-3">

@@ -103,7 +103,7 @@ function TooltipScreen({ screen }: { screen: ScreenState }) {
           className={`border px-4 py-2 font-mono text-[11px] tracking-[0.06em] whitespace-nowrap ${
             flicker
               ? 'border-accent bg-paper text-accent'
-              : 'border-ink bg-ink text-paper'
+              : 'border-lab-emerald bg-lab-emerald text-paper'
           }`}
         >
           Tooltip
