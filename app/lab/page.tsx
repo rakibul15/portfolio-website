@@ -133,6 +133,38 @@ const visualizers: Omit<VizCardProps, 'index' | 'isInView'>[] = [
     href: '/lab/dp',
     status: 'live',
   },
+  {
+    num: '17',
+    name: 'TypeScript Type System',
+    sub: 'Narrowing, generics with constraints, conditional + infer, mapped types — see how the compiler reasons',
+    tags: ['TypeScript', 'Types'],
+    href: '/lab/ts-types',
+    status: 'live',
+  },
+  {
+    num: '18',
+    name: 'Memory & GC',
+    sub: 'Object lifecycle, closure-induced leaks, WeakMap vs Map — heap diagrams + GC sweep',
+    tags: ['JavaScript', 'Memory'],
+    href: '/lab/memory-gc',
+    status: 'live',
+  },
+  {
+    num: '19',
+    name: 'Modules',
+    sub: 'ESM dependency graph, tree-shaking, dynamic import with code splitting',
+    tags: ['JavaScript', 'Bundling'],
+    href: '/lab/modules',
+    status: 'live',
+  },
+  {
+    num: '20',
+    name: 'Tricky Outputs',
+    sub: 'Six classic "what does this print?" gotchas — predict, reveal, walk through',
+    tags: ['JavaScript', 'Gotchas'],
+    href: '/lab/tricky-outputs',
+    status: 'live',
+  },
 ]
 
 const ease = [0.25, 0.1, 0.25, 1] as const
