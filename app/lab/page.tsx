@@ -56,10 +56,10 @@ const visualizers: Omit<VizCardProps, 'index' | 'isInView'>[] = [
   {
     num: '07',
     name: 'Core Web Vitals',
-    sub: 'Simulate LCP, INP, and CLS in real time — watch the score move with each change',
+    sub: 'Three before/after walkthroughs for LCP, INP, and CLS — what causes each, what the canonical fix looks like',
     tags: ['Performance', 'CWV'],
     href: '/lab/web-vitals',
-    status: 'soon',
+    status: 'live',
   },
 ]
 

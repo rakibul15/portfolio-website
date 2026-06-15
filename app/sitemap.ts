@@ -47,5 +47,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    {
+      url: `${baseUrl}/lab/web-vitals`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
   ]
 }
