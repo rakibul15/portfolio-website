@@ -10,6 +10,18 @@
   --red: #c0392b;
   --muted: #7a746c;
   --faint: #a09890;
+
+  /* Lab color palette — used by /lab/* pages for visual state distinction.
+     Picked to harmonize with the editorial paper/ink/red base while being
+     vivid enough to color-code variables, pointers, queue items, lanes. */
+  --lab-blue: #2563eb;
+  --lab-blue-soft: #dbeafe;
+  --lab-amber: #d97706;
+  --lab-amber-soft: #fef3c7;
+  --lab-emerald: #059669;
+  --lab-emerald-soft: #d1fae5;
+  --lab-purple: #7c3aed;
+  --lab-purple-soft: #ede9fe;
 }
 
 .dark {
@@ -22,6 +34,17 @@
   --red: #e74c3c;
   --muted: #8a847c;
   --faint: #5a554e;
+
+  /* Brighter variants for dark mode contrast. The "soft" tints become
+     dim chip backgrounds rather than light pastels. */
+  --lab-blue: #60a5fa;
+  --lab-blue-soft: #1e293b;
+  --lab-amber: #fbbf24;
+  --lab-amber-soft: #292524;
+  --lab-emerald: #34d399;
+  --lab-emerald-soft: #1c2a25;
+  --lab-purple: #a78bfa;
+  --lab-purple-soft: #2a1d3d;
 }
 
 @theme inline {
@@ -36,6 +59,17 @@
   --color-accent: var(--red);
   --color-muted: var(--muted);
   --color-faint: var(--faint);
+
+  /* Lab palette — usable as bg-lab-blue / text-lab-amber / border-lab-emerald */
+  --color-lab-blue: var(--lab-blue);
+  --color-lab-blue-soft: var(--lab-blue-soft);
+  --color-lab-amber: var(--lab-amber);
+  --color-lab-amber-soft: var(--lab-amber-soft);
+  --color-lab-emerald: var(--lab-emerald);
+  --color-lab-emerald-soft: var(--lab-emerald-soft);
+  --color-lab-purple: var(--lab-purple);
+  --color-lab-purple-soft: var(--lab-purple-soft);
+
   --font-serif: var(--font-playfair);
   --font-mono: var(--font-jetbrains);
   --font-sans: var(--font-outfit);

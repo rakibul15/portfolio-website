@@ -1,45 +1,86 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useSyncExternalStore } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Moon, Sun, Menu, X } from 'lucide-react'
 import { MagneticButton } from './magnetic-button'
 
-const navLinks = [
-  { label: 'About', href: '#about' },
-  { label: 'Work', href: '#work' },
-  { label: 'Experience', href: '#experience' },
-  { label: 'Philosophy', href: '#philosophy' },
-  { label: 'Contact', href: '#contact' },
+type NavLink = {
+  label: string
+  href: string
+  // 'hash' = on-page section (only active when on '/')
+  // 'route' = real route (active when pathname starts with href)
+  type: 'hash' | 'route'
+  // for hash links, the section id we track for active-state on homepage
+  section?: string
+}
+
+const navLinks: NavLink[] = [
+  { label: 'About', href: '/#about', type: 'hash', section: 'about' },
+  { label: 'Work', href: '/#work', type: 'hash', section: 'work' },
+  { label: 'Lab', href: '/lab', type: 'route' },
+  { label: 'Experience', href: '/#experience', type: 'hash', section: 'experience' },
+  { label: 'Philosophy', href: '/#philosophy', type: 'hash', section: 'philosophy' },
+  { label: 'Contact', href: '/#contact', type: 'hash', section: 'contact' },
 ]
 
+const homeSections = ['home', 'about', 'work', 'experience', 'philosophy', 'contact']
+
 export function Navigation() {
+  const pathname = usePathname()
+  const isHome = pathname === '/'
+
   const [isScrolled, setIsScrolled] = useState(false)
-  const [isDark, setIsDark] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [mounted, setMounted] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
   const ticking = useRef(false)
 
-  useEffect(() => {
-    setMounted(true)
-    setIsDark(document.documentElement.classList.contains('dark'))
+  // SSR-safe theme detection via useSyncExternalStore (no setState-in-effect).
+  // The blocking script in <head> sets the .dark class before hydration,
+  // so reading classList here is safe and matches the rendered DOM.
+  const mounted = useSyncExternalStore(
+    (callback) => {
+      const observer = new MutationObserver(callback)
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class'],
+      })
+      return () => observer.disconnect()
+    },
+    () => true,
+    () => false,
+  )
+  const isDark = useSyncExternalStore(
+    (callback) => {
+      const observer = new MutationObserver(callback)
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class'],
+      })
+      return () => observer.disconnect()
+    },
+    () => document.documentElement.classList.contains('dark'),
+    () => false,
+  )
 
+  useEffect(() => {
     const handleScroll = () => {
       if (ticking.current) return
       ticking.current = true
       requestAnimationFrame(() => {
         setIsScrolled(window.scrollY > 40)
 
-        // Detect active section
-        const sections = ['home', 'about', 'work', 'experience', 'philosophy', 'contact']
-        const scrollPos = window.scrollY + 120
-
-        for (let i = sections.length - 1; i >= 0; i--) {
-          const el = document.getElementById(sections[i])
-          if (el && scrollPos >= el.offsetTop) {
-            setActiveSection(sections[i])
-            break
+        // Only track active section on home page (hash links rely on it)
+        if (isHome) {
+          const scrollPos = window.scrollY + 120
+          for (let i = homeSections.length - 1; i >= 0; i--) {
+            const el = document.getElementById(homeSections[i])
+            if (el && scrollPos >= el.offsetTop) {
+              setActiveSection(homeSections[i])
+              break
+            }
           }
         }
         ticking.current = false
@@ -49,13 +90,20 @@ export function Navigation() {
     window.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll()
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [isHome])
 
   const toggleTheme = () => {
     const next = !isDark
-    setIsDark(next)
     document.documentElement.classList.toggle('dark', next)
     localStorage.setItem('theme', next ? 'dark' : 'light')
+  }
+
+  const isLinkActive = (link: NavLink) => {
+    if (link.type === 'route') {
+      return pathname === link.href || pathname.startsWith(`${link.href}/`)
+    }
+    // hash link: only active when on home AND scroll matches
+    return isHome && activeSection === link.section
   }
 
   return (
@@ -66,21 +114,21 @@ export function Navigation() {
           : 'border-b border-transparent'
       }`}
     >
-      <a
-        href="#home"
+      <Link
+        href="/"
         className="font-serif text-[22px] font-black tracking-tight leading-none"
       >
         RH<span className="text-accent">.</span>
-      </a>
+      </Link>
 
       {/* Desktop links */}
       <ul className="hidden md:flex items-center gap-10">
         {navLinks.map((link) => {
-          const sectionId = link.href.substring(1)
-          const isActive = activeSection === sectionId
+          const isActive = isLinkActive(link)
+          const LinkComponent = link.type === 'route' ? Link : 'a'
           return (
             <li key={link.label}>
-              <a
+              <LinkComponent
                 href={link.href}
                 className={`font-mono text-[11px] tracking-[0.1em] uppercase transition-colors relative ${
                   isActive ? 'text-ink' : 'text-muted hover:text-ink'
@@ -94,7 +142,7 @@ export function Navigation() {
                     transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                   />
                 )}
-              </a>
+              </LinkComponent>
             </li>
           )
         })}
@@ -108,20 +156,16 @@ export function Navigation() {
             className="p-2 text-muted hover:text-ink transition-colors"
             aria-label="Toggle theme"
           >
-            {isDark ? (
-              <Sun className="w-4 h-4" />
-            ) : (
-              <Moon className="w-4 h-4" />
-            )}
+            {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
         )}
         <MagneticButton strength={0.25}>
-          <a
-            href="#contact"
+          <Link
+            href="/#contact"
             className="font-mono text-[11px] tracking-[0.08em] uppercase bg-ink text-paper px-6 py-[11px] hover:bg-accent transition-colors inline-block"
           >
             Hire Me
-          </a>
+          </Link>
         </MagneticButton>
       </div>
 
@@ -134,7 +178,7 @@ export function Navigation() {
         {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
       </button>
 
-      {/* Mobile menu — animated */}
+      {/* Mobile menu */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
@@ -152,25 +196,26 @@ export function Navigation() {
               className="px-6 py-6 flex flex-col gap-1"
             >
               {navLinks.map((link, i) => {
-                const sectionId = link.href.substring(1)
-                const isActive = activeSection === sectionId
+                const isActive = isLinkActive(link)
+                const LinkComponent = link.type === 'route' ? Link : 'a'
                 return (
-                  <motion.a
+                  <motion.span
                     key={link.label}
-                    href={link.href}
-                    onClick={() => setIsMenuOpen(false)}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.05 + 0.1 }}
-                    className={`font-mono text-[12px] tracking-[0.1em] uppercase transition-colors py-3 border-b border-stroke ${
-                      isActive ? 'text-ink' : 'text-muted hover:text-ink'
-                    }`}
                   >
-                    {isActive && (
-                      <span className="text-accent mr-1">&rarr;</span>
-                    )}
-                    {link.label}
-                  </motion.a>
+                    <LinkComponent
+                      href={link.href}
+                      onClick={() => setIsMenuOpen(false)}
+                      className={`font-mono text-[12px] tracking-[0.1em] uppercase transition-colors py-3 border-b border-stroke block ${
+                        isActive ? 'text-ink' : 'text-muted hover:text-ink'
+                      }`}
+                    >
+                      {isActive && <span className="text-accent mr-1">&rarr;</span>}
+                      {link.label}
+                    </LinkComponent>
+                  </motion.span>
                 )
               })}
               <div className="flex items-center justify-between pt-4">
@@ -187,13 +232,13 @@ export function Navigation() {
                     )}
                   </button>
                 )}
-                <a
-                  href="#contact"
+                <Link
+                  href="/#contact"
                   onClick={() => setIsMenuOpen(false)}
                   className="font-mono text-[11px] tracking-[0.08em] uppercase bg-ink text-paper px-6 py-[11px]"
                 >
                   Hire Me
-                </a>
+                </Link>
               </div>
             </motion.div>
           </motion.div>
