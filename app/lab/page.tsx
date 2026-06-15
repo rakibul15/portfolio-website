@@ -64,9 +64,17 @@ const visualizers: Omit<VizCardProps, 'index' | 'isInView'>[] = [
   {
     num: '08',
     name: 'Algorithm Patterns',
-    sub: 'Four interview-classic patterns stepped through visually — sliding window, two pointers, binary search, BFS on a grid',
+    sub: 'Eight interview classics — sliding window, two pointers, binary search, BFS, DFS, hashmap, Kadane, merge sort — with TS + Go',
     tags: ['DSA', 'Algorithms'],
     href: '/lab/algorithms',
+    status: 'live',
+  },
+  {
+    num: '09',
+    name: 'Async Patterns',
+    sub: 'Timeline-based walkthroughs — debounce, throttle, Promise.all, Promise.race, pool, AbortController. JS + Go.',
+    tags: ['JavaScript', 'Concurrency'],
+    href: '/lab/async-patterns',
     status: 'live',
   },
 ]
