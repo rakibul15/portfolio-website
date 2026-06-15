@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import type { ELItem } from '@/lib/lab/event-loop-data'
+import { springBouncy, stackPop, slideIn } from '@/lib/lab/motion'
 
 interface QueuePanelProps {
   title: string
@@ -74,10 +75,12 @@ export function QueuePanel({ title, hint, items, variant, count }: QueuePanelPro
             <motion.div
               key={item.id}
               layout
-              initial={{ opacity: 0, y: variant === 'stack' ? -8 : 8, scale: 0.96 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.96, transition: { duration: 0.15 } }}
-              transition={{ type: 'spring', stiffness: 320, damping: 26 }}
+              variants={variant === 'stack' ? stackPop : slideIn}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={springBouncy}
+              whileHover={{ scale: 1.04, y: -1 }}
               className={`px-3 py-2.5 border font-mono text-[11px] tracking-[0.02em] leading-snug truncate ${
                 toneClass[item.tone ?? 'default']
               }`}

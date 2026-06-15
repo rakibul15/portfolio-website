@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { springBouncy, floatNudge } from '@/lib/lab/motion'
 
 interface CodePanelProps {
   code: string[]
@@ -42,12 +43,12 @@ export function CodePanel({ code, activeLine }: CodePanelProps) {
                 transition={{ duration: 0.25 }}
                 className="flex items-center gap-3 px-2 -mx-2 relative"
               >
-                {/* Active line gutter marker */}
+                {/* Active line gutter marker — bouncy slide between lines */}
                 {active && (
                   <motion.span
                     layoutId="code-marker"
                     className="absolute left-[-12px] top-0 bottom-0 w-[3px] bg-lab-amber"
-                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                    transition={springBouncy}
                   />
                 )}
                 <span
@@ -66,11 +67,15 @@ export function CodePanel({ code, activeLine }: CodePanelProps) {
                 </span>
                 {active && (
                   <motion.span
-                    initial={{ opacity: 0, x: -4 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, x: -8, scale: 0.8 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    transition={springBouncy}
+                    variants={floatNudge}
                     className="ml-auto font-mono text-[9px] text-lab-amber tracking-[0.14em] uppercase shrink-0"
                   >
-                    ▶ running
+                    <motion.span variants={floatNudge} animate="animate" className="inline-block">
+                      ▶ running
+                    </motion.span>
                   </motion.span>
                 )}
               </motion.div>

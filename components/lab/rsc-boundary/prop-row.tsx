@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import type { PropStatus, RSCProp } from '@/lib/lab/rsc-boundary-data'
+import { springBouncy, wiggleBadge } from '@/lib/lab/motion'
 
 interface PropRowProps {
   prop: RSCProp
@@ -71,8 +72,9 @@ export function PropRow({ prop, status, side, focused }: PropRowProps) {
   return (
     <motion.div
       layout
-      animate={{ scale: focused ? 1 : 0.998 }}
-      transition={{ type: 'spring', stiffness: 350, damping: 28 }}
+      animate={{ scale: focused ? [1, 1.03, 1] : 1 }}
+      transition={focused ? { duration: 0.55, ease: 'easeInOut' } : springBouncy}
+      whileHover={{ scale: 1.01 }}
       className={`border bg-paper transition-colors ${
         focused
           ? status === 'rejected'
@@ -113,9 +115,9 @@ export function PropRow({ prop, status, side, focused }: PropRowProps) {
           </div>
           <motion.div
             key={status}
-            initial={{ opacity: 0, y: -3 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.2 }}
+            variants={wiggleBadge}
+            initial="initial"
+            animate="animate"
             className={`font-mono text-[9px] tracking-[0.14em] uppercase px-2 py-1 border whitespace-nowrap leading-none ${STATUS_BADGE[status]}`}
           >
             {STATUS_LABEL[status]}

@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import type { GridView, GridCellState } from '@/lib/lab/algorithms-data'
+import { springBouncy } from '@/lib/lab/motion'
 
 interface GridViewProps {
   view: GridView
@@ -37,10 +38,21 @@ export function GridViewRenderer({ view }: GridViewProps) {
               key={i}
               layout
               animate={{
-                scale: state === 'visiting' ? 1.05 : 1,
+                scale:
+                  state === 'visiting'
+                    ? [1, 1.15, 1.06]
+                    : state === 'visited'
+                      ? [1, 0.94, 1]
+                      : 1,
+                rotate: state === 'visiting' ? [0, -3, 3, 0] : 0,
               }}
-              transition={{ type: 'spring', stiffness: 350, damping: 24 }}
-              className={`aspect-square border flex flex-col items-center justify-center font-mono text-[12px] sm:text-[13px] tracking-[0.04em] ${CELL_STYLE[state]} transition-colors`}
+              transition={
+                state === 'visiting' || state === 'visited'
+                  ? { duration: 0.55, ease: 'easeInOut' }
+                  : springBouncy
+              }
+              whileHover={{ scale: 1.08, y: -2 }}
+              className={`aspect-square border flex flex-col items-center justify-center font-mono text-[12px] sm:text-[13px] tracking-[0.04em] ${CELL_STYLE[state]} transition-colors cursor-default`}
             >
               <span className="font-serif text-[15px] sm:text-[18px] font-black leading-none">
                 {CELL_LABEL[state]}
@@ -72,10 +84,11 @@ export function GridViewRenderer({ view }: GridViewProps) {
             queue.map((p, i) => (
               <motion.span
                 key={`${p.r},${p.c},${i}`}
-                initial={{ opacity: 0, x: -6 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.25 }}
-                className="font-mono text-[10px] tracking-[0.06em] border border-lab-amber bg-lab-amber-soft text-lab-amber px-2 py-1"
+                initial={{ opacity: 0, x: -10, scale: 0.7, rotate: -8 }}
+                animate={{ opacity: 1, x: 0, scale: 1, rotate: 0 }}
+                transition={springBouncy}
+                whileHover={{ scale: 1.1, rotate: -2 }}
+                className="font-mono text-[10px] tracking-[0.06em] border border-lab-amber bg-lab-amber-soft text-lab-amber px-2 py-1 cursor-default"
               >
                 ({p.r}, {p.c})
               </motion.span>

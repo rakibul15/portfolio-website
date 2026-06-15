@@ -5,6 +5,7 @@ import type {
   AsyncPatternScenario,
   TimelineEvent,
 } from '@/lib/lab/async-patterns-data'
+import { springBouncy } from '@/lib/lab/motion'
 
 interface TimelineProps {
   scenario: AsyncPatternScenario
@@ -117,14 +118,15 @@ export function Timeline({ scenario, events, nowMs }: TimelineProps) {
                           return (
                             <motion.div
                               key={event.id}
-                              initial={{ opacity: 0, scale: 0.7 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              exit={{ opacity: 0, scale: 0.7 }}
-                              transition={{ duration: 0.2 }}
+                              initial={{ opacity: 0, scale: 0.3, y: -8 }}
+                              animate={{ opacity: 1, scale: 1, y: 0 }}
+                              exit={{ opacity: 0, scale: 0.5 }}
+                              transition={springBouncy}
+                              whileHover={{ scale: 1.18, y: -3 }}
                               style={{ left: `${toPercent(event.timeMs!)}%` }}
-                              className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1 z-10"
+                              className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1 z-10 cursor-default"
                             >
-                              <div className={`w-2.5 h-2.5 ${TONE_TICK[tone]}`} />
+                              <div className={`w-2.5 h-2.5 rotate-45 ${TONE_TICK[tone]}`} />
                               <span className="font-mono text-[9px] tracking-[0.04em] whitespace-nowrap text-ink bg-paper px-1.5 py-[2px] border border-stroke">
                                 {event.label}
                               </span>
@@ -140,16 +142,17 @@ export function Timeline({ scenario, events, nowMs }: TimelineProps) {
                           <motion.div
                             key={event.id}
                             layout
-                            initial={{ opacity: 0, scaleX: 0.8 }}
-                            animate={{ opacity: 1, scaleX: 1 }}
+                            initial={{ opacity: 0, scaleX: 0.4, scaleY: 0.7 }}
+                            animate={{ opacity: 1, scaleX: 1, scaleY: 1 }}
                             exit={{ opacity: 0 }}
-                            transition={{ duration: 0.25 }}
+                            transition={springBouncy}
+                            whileHover={{ scaleY: 1.08, y: -1 }}
                             style={{
                               left: `${left}%`,
                               width: `${width}%`,
                               transformOrigin: 'left center',
                             }}
-                            className={`absolute top-1/2 -translate-y-1/2 h-7 sm:h-8 border flex items-center px-2 truncate font-mono text-[9.5px] tracking-[0.04em] ${TONE_BG[tone]} z-10`}
+                            className={`absolute top-1/2 -translate-y-1/2 h-7 sm:h-8 border flex items-center px-2 truncate font-mono text-[9.5px] tracking-[0.04em] ${TONE_BG[tone]} z-10 cursor-default`}
                           >
                             <span className="truncate">{event.label}</span>
                           </motion.div>

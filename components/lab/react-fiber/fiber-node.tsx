@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import type { FiberTreeNode, RenderStatus } from '@/lib/lab/react-fiber-data'
+import { springBouncy, wiggleBadge } from '@/lib/lab/motion'
 
 interface FiberNodeProps {
   node: FiberTreeNode
@@ -67,9 +68,19 @@ export function FiberNode({ node, states, depth }: FiberNodeProps) {
     <div>
       <motion.div
         layout
-        animate={{ scale: status === 'rendering' || status === 'state-change' ? 1 : 0.998 }}
-        transition={{ type: 'spring', stiffness: 350, damping: 28 }}
+        animate={{
+          scale:
+            status === 'rendering' || status === 'state-change'
+              ? [1, 1.04, 1]
+              : 1,
+        }}
+        transition={
+          status === 'rendering' || status === 'state-change'
+            ? { duration: 0.5, ease: 'easeInOut' }
+            : springBouncy
+        }
         style={{ marginLeft: depth * 20 }}
+        whileHover={{ scale: 1.015 }}
         className={`border ${CARD_BORDER[status]} ${CARD_BG[status]} ${CARD_OPACITY[status]} transition-colors mb-1.5`}
       >
         <div className="flex items-center justify-between gap-3 px-3 py-2.5 sm:px-4 sm:py-3">
@@ -90,9 +101,9 @@ export function FiberNode({ node, states, depth }: FiberNodeProps) {
           </div>
           <motion.div
             key={status}
-            initial={{ opacity: 0, y: -3 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.2 }}
+            variants={wiggleBadge}
+            initial="initial"
+            animate="animate"
             className={`font-mono text-[9px] tracking-[0.14em] uppercase px-2 py-1 border whitespace-nowrap leading-none ${STATUS_BADGE[status]}`}
           >
             {STATUS_LABEL[status]}

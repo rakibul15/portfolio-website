@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import type { ArrayView } from '@/lib/lab/algorithms-data'
+import { springBouncy } from '@/lib/lab/motion'
 
 interface ArrayViewProps {
   view: ArrayView
@@ -53,8 +54,9 @@ export function ArrayViewRenderer({ view }: ArrayViewProps) {
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 8 }}
-                      transition={{ type: 'spring', stiffness: 350, damping: 26 }}
-                      className={`font-mono text-[9px] tracking-[0.12em] uppercase px-2 py-[2px] border ${POINTER_TONE[p.tone]} bg-paper whitespace-nowrap leading-none`}
+                      transition={springBouncy}
+                      whileHover={{ scale: 1.08, y: -2 }}
+                      className={`font-mono text-[9px] tracking-[0.12em] uppercase px-2 py-[2px] border ${POINTER_TONE[p.tone]} bg-paper whitespace-nowrap leading-none cursor-default`}
                     >
                       {p.label} ↓
                     </motion.div>
@@ -90,10 +92,16 @@ export function ArrayViewRenderer({ view }: ArrayViewProps) {
                 key={i}
                 layout
                 animate={{
-                  scale: state === 'found' ? 1.05 : 1,
+                  scale: state === 'found' ? [1, 1.18, 1.05] : 1,
+                  rotate: state === 'found' ? [0, -4, 0] : 0,
                 }}
-                transition={{ type: 'spring', stiffness: 320, damping: 22 }}
-                className={`relative w-12 sm:w-14 h-12 sm:h-14 border flex items-center justify-center font-serif text-[16px] sm:text-[18px] font-black ${CELL_STATE[state]} transition-colors`}
+                transition={
+                  state === 'found'
+                    ? { duration: 0.6, ease: 'easeInOut' }
+                    : springBouncy
+                }
+                whileHover={{ scale: 1.06, y: -2 }}
+                className={`relative w-12 sm:w-14 h-12 sm:h-14 border flex items-center justify-center font-serif text-[16px] sm:text-[18px] font-black ${CELL_STATE[state]} transition-colors cursor-default`}
               >
                 {cell.value}
               </motion.div>

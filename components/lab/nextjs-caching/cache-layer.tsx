@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import type { CacheStatus } from '@/lib/lab/nextjs-caching-data'
+import { springBouncy, wiggleBadge } from '@/lib/lab/motion'
 
 interface CacheLayerProps {
   title: string
@@ -56,9 +57,11 @@ export function CacheLayer({
     <motion.div
       layout
       animate={{
-        scale: focused ? 1 : 0.998,
+        scale: focused ? [1, 1.02, 1] : 1,
       }}
-      transition={{ type: 'spring', stiffness: 350, damping: 28 }}
+      transition={
+        focused ? { duration: 0.6, ease: 'easeInOut' } : springBouncy
+      }
       className={`border ${CARD_BORDER[status]} bg-paper transition-colors`}
     >
       <div className="flex items-stretch">
@@ -87,9 +90,9 @@ export function CacheLayer({
             {/* Status badge */}
             <motion.div
               key={status}
-              initial={{ opacity: 0, y: -4 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2 }}
+              variants={wiggleBadge}
+              initial="initial"
+              animate="animate"
               className={`font-mono text-[10px] tracking-[0.14em] uppercase px-3 py-1.5 border self-start whitespace-nowrap ${STATUS_BADGE[status]}`}
             >
               {STATUS_LABEL[status]}
