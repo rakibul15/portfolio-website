@@ -61,6 +61,14 @@ const visualizers: Omit<VizCardProps, 'index' | 'isInView'>[] = [
     href: '/lab/web-vitals',
     status: 'live',
   },
+  {
+    num: '08',
+    name: 'Algorithm Patterns',
+    sub: 'Four interview-classic patterns stepped through visually — sliding window, two pointers, binary search, BFS on a grid',
+    tags: ['DSA', 'Algorithms'],
+    href: '/lab/algorithms',
+    status: 'live',
+  },
 ]
 
 const ease = [0.25, 0.1, 0.25, 1] as const
