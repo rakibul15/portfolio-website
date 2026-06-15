@@ -16,10 +16,10 @@ const visualizers: Omit<VizCardProps, 'index' | 'isInView'>[] = [
   {
     num: '02',
     name: 'Next.js Caching Layers',
-    sub: 'Request Memoization → Data Cache → Full Route Cache → Router Cache — what hits each',
+    sub: 'Router → Full Route → Request Memo → Data Cache — see what hits each, and what invalidates them',
     tags: ['Next.js', 'Performance'],
     href: '/lab/nextjs-caching',
-    status: 'soon',
+    status: 'live',
   },
   {
     num: '03',
