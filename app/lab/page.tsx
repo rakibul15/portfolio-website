@@ -85,6 +85,14 @@ const visualizers: Omit<VizCardProps, 'index' | 'isInView'>[] = [
     href: '/lab/linked-list',
     status: 'live',
   },
+  {
+    num: '11',
+    name: 'Binary Search Tree',
+    sub: 'Build a BST, search, in-order traversal (sorted output), and the two-children delete case — TS + Go',
+    tags: ['Data Structures', 'Trees'],
+    href: '/lab/bst',
+    status: 'live',
+  },
 ]
 
 const ease = [0.25, 0.1, 0.25, 1] as const
