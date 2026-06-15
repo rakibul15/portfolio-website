@@ -32,10 +32,10 @@ const visualizers: Omit<VizCardProps, 'index' | 'isInView'>[] = [
   {
     num: '04',
     name: 'RSC Serialization Boundary',
-    sub: 'What crosses the server → client boundary — and what gets rejected',
+    sub: 'What crosses the server → client wire, what gets rejected, and what the RSC payload looks like',
     tags: ['React', 'Next.js'],
     href: '/lab/rsc-boundary',
-    status: 'soon',
+    status: 'live',
   },
   {
     num: '05',
