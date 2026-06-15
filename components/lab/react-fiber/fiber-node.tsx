@@ -1,0 +1,112 @@
+'use client'
+
+import { motion } from 'framer-motion'
+import type { FiberTreeNode, RenderStatus } from '@/lib/lab/react-fiber-data'
+
+interface FiberNodeProps {
+  node: FiberTreeNode
+  states: Record<string, RenderStatus>
+  depth: number
+}
+
+const STATUS_LABEL: Record<RenderStatus, string> = {
+  idle: 'idle',
+  'state-change': 'setState',
+  scheduled: 'scheduled',
+  rendering: 'render',
+  committed: 'ok',
+  'skipped-memo': 'memo skip',
+}
+
+const STATUS_BADGE: Record<RenderStatus, string> = {
+  idle: 'border-stroke text-faint',
+  'state-change': 'border-accent text-paper bg-accent',
+  scheduled: 'border-stroke2 text-muted',
+  rendering: 'border-ink bg-ink text-paper',
+  committed: 'border-stroke text-faint',
+  'skipped-memo': 'border-stroke2 text-faint italic',
+}
+
+const CARD_BORDER: Record<RenderStatus, string> = {
+  idle: 'border-stroke',
+  'state-change': 'border-accent',
+  scheduled: 'border-stroke2',
+  rendering: 'border-ink',
+  committed: 'border-stroke',
+  'skipped-memo': 'border-stroke2',
+}
+
+const CARD_BG: Record<RenderStatus, string> = {
+  idle: 'bg-paper',
+  'state-change': 'bg-paper',
+  scheduled: 'bg-paper',
+  rendering: 'bg-paper',
+  committed: 'bg-paper',
+  'skipped-memo': 'bg-paper2',
+}
+
+const CARD_OPACITY: Record<RenderStatus, string> = {
+  idle: 'opacity-60',
+  'state-change': 'opacity-100',
+  scheduled: 'opacity-85',
+  rendering: 'opacity-100',
+  committed: 'opacity-100',
+  'skipped-memo': 'opacity-55',
+}
+
+export function FiberNode({ node, states, depth }: FiberNodeProps) {
+  const status: RenderStatus = states[node.id] ?? 'idle'
+  const children = node.children ?? []
+
+  return (
+    <div>
+      <motion.div
+        layout
+        animate={{ scale: status === 'rendering' || status === 'state-change' ? 1 : 0.998 }}
+        transition={{ type: 'spring', stiffness: 350, damping: 28 }}
+        style={{ marginLeft: depth * 20 }}
+        className={`border ${CARD_BORDER[status]} ${CARD_BG[status]} ${CARD_OPACITY[status]} transition-colors mb-1.5`}
+      >
+        <div className="flex items-center justify-between gap-3 px-3 py-2.5 sm:px-4 sm:py-3">
+          <div className="min-w-0 flex items-baseline gap-2 flex-wrap">
+            <span className="font-serif text-[16px] sm:text-[18px] font-black tracking-tight leading-none">
+              {node.name}
+            </span>
+            {node.isMemo && (
+              <span className="font-mono text-[9px] text-accent tracking-[0.14em] uppercase border border-accent px-1.5 py-[2px] leading-none">
+                memo
+              </span>
+            )}
+            {node.propsLabel && (
+              <span className="font-mono text-[10px] text-faint tracking-[0.04em] leading-snug truncate">
+                {node.propsLabel}
+              </span>
+            )}
+          </div>
+          <motion.div
+            key={status}
+            initial={{ opacity: 0, y: -3 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+            className={`font-mono text-[9px] tracking-[0.14em] uppercase px-2 py-1 border whitespace-nowrap leading-none ${STATUS_BADGE[status]}`}
+          >
+            {STATUS_LABEL[status]}
+          </motion.div>
+        </div>
+      </motion.div>
+
+      {children.length > 0 && (
+        <div>
+          {children.map((child) => (
+            <FiberNode
+              key={child.id}
+              node={child}
+              states={states}
+              depth={depth + 1}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}

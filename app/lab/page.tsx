@@ -24,10 +24,10 @@ const visualizers: Omit<VizCardProps, 'index' | 'isInView'>[] = [
   {
     num: '03',
     name: 'React Fiber Reconciliation',
-    sub: 'Watch which nodes re-render when state changes — toggle memoization to see the effect',
+    sub: 'Watch which nodes re-render on setState, and how React.memo + useCallback change the cascade',
     tags: ['React', 'Internals'],
     href: '/lab/react-fiber',
-    status: 'soon',
+    status: 'live',
   },
   {
     num: '04',
