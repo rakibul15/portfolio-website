@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { Play, Pause, SkipForward, SkipBack, RotateCcw } from 'lucide-react'
-import { scenarios, type AlgoScenario } from '@/lib/lab/algorithms-data'
+import { scenarios, type AlgoScenario, type AlgoLanguage } from '@/lib/lab/algorithms-data'
 import { ArrayViewRenderer } from './array-view'
 import { GridViewRenderer } from './grid-view'
 import { CodePanel } from '../event-loop/code-panel'
@@ -18,6 +18,7 @@ export function AlgorithmsViz() {
   const [stepIndex, setStepIndex] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
   const [speedIndex, setSpeedIndex] = useState(1)
+  const [language, setLanguage] = useState<AlgoLanguage>('js')
   const [prevScenarioIndex, setPrevScenarioIndex] = useState(0)
   const timerRef = useRef<number | null>(null)
 
@@ -210,8 +211,23 @@ export function AlgorithmsViz() {
         </div>
 
         {/* RIGHT: Code panel — sticky on desktop so it stays in view */}
-        <div className="lg:sticky lg:top-20 lg:self-start min-w-0">
-          <CodePanel code={scenario.code} activeLine={step.codeLine ?? 0} />
+        <div className="lg:sticky lg:top-20 lg:self-start min-w-0 flex flex-col gap-2">
+          <div className="flex items-center gap-1 self-start">
+            {(['js', 'go'] as const).map((lang) => (
+              <button
+                key={lang}
+                onClick={() => setLanguage(lang)}
+                className={`font-mono text-[10px] tracking-[0.14em] uppercase px-3 py-1.5 border transition-colors ${
+                  language === lang
+                    ? 'border-ink bg-ink text-paper'
+                    : 'border-stroke text-muted hover:text-ink hover:border-ink'
+                }`}
+              >
+                {lang === 'js' ? 'TypeScript' : 'Go'}
+              </button>
+            ))}
+          </div>
+          <CodePanel code={scenario.code[language]} activeLine={step.codeLine ?? 0} />
         </div>
       </div>
     </div>
