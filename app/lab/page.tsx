@@ -77,6 +77,14 @@ const visualizers: Omit<VizCardProps, 'index' | 'isInView'>[] = [
     href: '/lab/async-patterns',
     status: 'live',
   },
+  {
+    num: '10',
+    name: 'Linked List',
+    sub: 'Insert + delete, reverse, Floyd\'s cycle detection, doubly-linked operations — with TypeScript and Go',
+    tags: ['Data Structures', 'Pointers'],
+    href: '/lab/linked-list',
+    status: 'live',
+  },
 ]
 
 const ease = [0.25, 0.1, 0.25, 1] as const
