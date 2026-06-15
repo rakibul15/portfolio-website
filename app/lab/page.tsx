@@ -109,6 +109,30 @@ const visualizers: Omit<VizCardProps, 'index' | 'isInView'>[] = [
     href: '/lab/graph',
     status: 'live',
   },
+  {
+    num: '14',
+    name: 'JS Fundamentals',
+    sub: 'Closures, currying, hoisting, `this` binding, prototype chain — scope-walk + console output animated',
+    tags: ['JavaScript', 'Language'],
+    href: '/lab/js-fundamentals',
+    status: 'live',
+  },
+  {
+    num: '15',
+    name: 'JS Utility Implementations',
+    sub: 'deepClone, memoize, LRU cache, Event Emitter — the most-asked FE coding round',
+    tags: ['JavaScript', 'Utilities'],
+    href: '/lab/js-utilities',
+    status: 'live',
+  },
+  {
+    num: '16',
+    name: 'Dynamic Programming',
+    sub: 'Climbing stairs, house robber (1D), edit distance (2D) — DP table fills cell-by-cell',
+    tags: ['DSA', 'DP'],
+    href: '/lab/dp',
+    status: 'live',
+  },
 ]
 
 const ease = [0.25, 0.1, 0.25, 1] as const
