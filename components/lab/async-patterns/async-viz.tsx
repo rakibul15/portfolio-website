@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Play, Pause, SkipForward, SkipBack, RotateCcw } from 'lucide-react'
+import { Play, Pause, SkipForward, SkipBack, RotateCcw, GripVertical } from 'lucide-react'
+import { Group, Panel, Separator } from 'react-resizable-panels'
 import { scenarios, type AsyncPatternScenario } from '@/lib/lab/async-patterns-data'
 import { Timeline } from './timeline'
 import { CodePanel } from '../event-loop/code-panel'
@@ -165,41 +166,11 @@ export function AsyncViz() {
         </div>
       </div>
 
-      {/* Two-column: timeline + variables on the left, code on the right */}
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_minmax(360px,440px)] gap-6 items-start">
-        <div className="flex flex-col gap-4 min-w-0">
-          <Timeline scenario={scenario} events={step.events} nowMs={step.nowMs} />
-
-          {/* Variables */}
-          <div className="border border-stroke">
-            <div className="px-4 py-2.5 border-b border-stroke flex items-center justify-between">
-              <span className="font-mono text-[10px] text-accent tracking-[0.16em] uppercase">
-                Variables
-              </span>
-              <span className="font-mono text-[10px] text-faint tracking-[0.06em]">
-                {step.vars.length} tracked
-              </span>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 divide-y divide-stroke sm:divide-y-0 sm:divide-x lg:divide-y lg:divide-x-0 xl:divide-y-0 xl:divide-x">
-              {step.vars.map((v) => (
-                <div
-                  key={v.label}
-                  className="flex items-baseline justify-between gap-3 px-4 py-2 min-w-0"
-                >
-                  <span className="font-mono text-[10px] text-muted tracking-[0.1em] uppercase whitespace-nowrap">
-                    {v.label}
-                  </span>
-                  <span className="font-mono text-[12px] text-ink text-right truncate min-w-0">
-                    {v.value}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Code with language tabs */}
-        <div className="lg:sticky lg:top-20 lg:self-start min-w-0 flex flex-col gap-2">
+      {/* Mobile: stacked */}
+      <div className="flex lg:hidden flex-col gap-4">
+        <Timeline scenario={scenario} events={step.events} nowMs={step.nowMs} />
+        <VariablesPanel vars={step.vars} />
+        <div className="flex flex-col gap-2 min-w-0">
           <div className="flex items-center gap-1 self-start">
             {(['js', 'go'] as const).map((lang) => (
               <button
@@ -217,6 +188,87 @@ export function AsyncViz() {
           </div>
           <CodePanel code={scenario.code[language]} activeLine={step.codeLine ?? 0} />
         </div>
+      </div>
+
+      {/* Desktop: resizable side-by-side */}
+      <div className="hidden lg:block">
+        <Group
+          orientation="horizontal"
+          className="min-h-[560px]"
+        >
+          <Panel defaultSize={60} minSize={30} className="min-w-0">
+            <div className="flex flex-col gap-4 pr-2 h-full overflow-hidden">
+              <div className="flex-1 min-h-0 overflow-y-auto pr-1 flex flex-col gap-4">
+                <Timeline scenario={scenario} events={step.events} nowMs={step.nowMs} />
+                <VariablesPanel vars={step.vars} />
+              </div>
+            </div>
+          </Panel>
+          <Separator className="group relative w-1 mx-2 bg-stroke hover:bg-accent active:bg-accent transition-colors cursor-col-resize">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-1 border border-stroke bg-paper2 text-muted group-hover:border-accent group-hover:text-accent transition-colors">
+              <GripVertical className="w-3 h-3" />
+            </div>
+          </Separator>
+          <Panel defaultSize={40} minSize={25} className="min-w-0">
+            <div className="flex flex-col gap-2 pl-2 h-full">
+              <div className="flex items-center gap-1 self-start">
+                {(['js', 'go'] as const).map((lang) => (
+                  <button
+                    key={lang}
+                    onClick={() => setLanguage(lang)}
+                    className={`font-mono text-[10px] tracking-[0.14em] uppercase px-3 py-1.5 border transition-colors ${
+                      language === lang
+                        ? 'border-ink bg-ink text-paper'
+                        : 'border-stroke text-muted hover:text-ink hover:border-ink'
+                    }`}
+                  >
+                    {lang === 'js' ? 'TypeScript' : 'Go'}
+                  </button>
+                ))}
+              </div>
+              <div className="flex-1 min-h-0 overflow-y-auto border border-stroke">
+                <CodePanel
+                  code={scenario.code[language]}
+                  activeLine={step.codeLine ?? 0}
+                />
+              </div>
+            </div>
+          </Panel>
+        </Group>
+      </div>
+    </div>
+  )
+}
+
+function VariablesPanel({
+  vars,
+}: {
+  vars: Array<{ label: string; value: string }>
+}) {
+  return (
+    <div className="border border-stroke">
+      <div className="px-4 py-2.5 border-b border-stroke flex items-center justify-between">
+        <span className="font-mono text-[10px] text-lab-blue tracking-[0.16em] uppercase">
+          Variables
+        </span>
+        <span className="font-mono text-[10px] text-faint tracking-[0.06em]">
+          {vars.length} tracked
+        </span>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 divide-y divide-stroke sm:divide-y-0 sm:divide-x lg:divide-y lg:divide-x-0 xl:divide-y-0 xl:divide-x">
+        {vars.map((v) => (
+          <div
+            key={v.label}
+            className="flex items-baseline justify-between gap-3 px-4 py-2 min-w-0"
+          >
+            <span className="font-mono text-[10px] text-muted tracking-[0.1em] uppercase whitespace-nowrap">
+              {v.label}
+            </span>
+            <span className="font-mono text-[12px] text-ink text-right truncate min-w-0">
+              {v.value}
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   )

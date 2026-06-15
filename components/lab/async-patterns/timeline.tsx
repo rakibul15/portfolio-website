@@ -12,18 +12,23 @@ interface TimelineProps {
   nowMs: number
 }
 
+// Tone palette for events — each conveys a different signal:
+//   accent  → important / aborted / current (red)
+//   ink     → input/keystroke (dark)
+//   muted   → pending / in-flight (muted)
+//   success → completed (emerald)
 const TONE_BG: Record<NonNullable<TimelineEvent['tone']>, string> = {
   accent: 'bg-accent text-paper border-accent',
-  ink: 'bg-ink text-paper border-ink',
+  ink: 'bg-lab-blue text-paper border-lab-blue',
   muted: 'bg-paper3 text-ink border-stroke2',
-  success: 'bg-ink text-paper border-ink',
+  success: 'bg-lab-emerald text-paper border-lab-emerald',
 }
 
 const TONE_TICK: Record<NonNullable<TimelineEvent['tone']>, string> = {
   accent: 'bg-accent',
-  ink: 'bg-ink',
+  ink: 'bg-lab-blue',
   muted: 'bg-stroke2',
-  success: 'bg-ink',
+  success: 'bg-lab-emerald',
 }
 
 export function Timeline({ scenario, events, nowMs }: TimelineProps) {

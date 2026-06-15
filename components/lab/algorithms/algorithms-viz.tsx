@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Play, Pause, SkipForward, SkipBack, RotateCcw } from 'lucide-react'
+import { Play, Pause, SkipForward, SkipBack, RotateCcw, GripVertical } from 'lucide-react'
+import { Group, Panel, Separator } from 'react-resizable-panels'
 import { scenarios, type AlgoScenario, type AlgoLanguage } from '@/lib/lab/algorithms-data'
 import { ArrayViewRenderer } from './array-view'
 import { GridViewRenderer } from './grid-view'
@@ -175,61 +176,133 @@ export function AlgorithmsViz() {
         </div>
       </div>
 
-      {/* Two-column layout: viz + variables on left, code on right (sticky) */}
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_minmax(360px,440px)] gap-6 items-start">
-        {/* LEFT: View + Variables */}
-        <div className="flex flex-col gap-4 min-w-0">
-          {step.view === 'array' && step.array && <ArrayViewRenderer view={step.array} />}
-          {step.view === 'grid' && step.grid && <GridViewRenderer view={step.grid} />}
-
-          {/* Variables — compact, inline with the visualization */}
-          <div className="border border-stroke">
-            <div className="px-4 py-2.5 border-b border-stroke flex items-center justify-between">
-              <span className="font-mono text-[10px] text-accent tracking-[0.16em] uppercase">
-                Variables
-              </span>
-              <span className="font-mono text-[10px] text-faint tracking-[0.06em]">
-                {step.vars.length} tracked
-              </span>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 divide-y divide-stroke sm:divide-y-0 sm:divide-x lg:divide-y lg:divide-x-0 xl:divide-y-0 xl:divide-x">
-              {step.vars.map((v) => (
-                <div
-                  key={v.label}
-                  className="flex items-baseline justify-between gap-3 px-4 py-2 min-w-0"
-                >
-                  <span className="font-mono text-[10px] text-muted tracking-[0.1em] uppercase whitespace-nowrap">
-                    {v.label}
-                  </span>
-                  <span className="font-mono text-[12px] text-ink text-right truncate min-w-0">
-                    {v.value}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* RIGHT: Code panel — sticky on desktop so it stays in view */}
-        <div className="lg:sticky lg:top-20 lg:self-start min-w-0 flex flex-col gap-2">
-          <div className="flex items-center gap-1 self-start">
-            {(['js', 'go'] as const).map((lang) => (
-              <button
-                key={lang}
-                onClick={() => setLanguage(lang)}
-                className={`font-mono text-[10px] tracking-[0.14em] uppercase px-3 py-1.5 border transition-colors ${
-                  language === lang
-                    ? 'border-ink bg-ink text-paper'
-                    : 'border-stroke text-muted hover:text-ink hover:border-ink'
-                }`}
-              >
-                {lang === 'js' ? 'TypeScript' : 'Go'}
-              </button>
-            ))}
-          </div>
-          <CodePanel code={scenario.code[language]} activeLine={step.codeLine ?? 0} />
-        </div>
+      {/* Resizable side-by-side layout (desktop). Stacks on mobile.
+          Drag the vertical handle between panels to enlarge the code area. */}
+      <div className="flex lg:hidden flex-col gap-4">
+        {step.view === 'array' && step.array && <ArrayViewRenderer view={step.array} />}
+        {step.view === 'grid' && step.grid && <GridViewRenderer view={step.grid} />}
+        <VariablesPanel vars={step.vars} />
+        <CodeColumn
+          language={language}
+          setLanguage={setLanguage}
+          code={scenario.code[language]}
+          activeLine={step.codeLine ?? 0}
+        />
       </div>
+
+      <div className="hidden lg:block">
+        <Group
+          orientation="horizontal"
+          className="min-h-[560px]"
+        >
+          <Panel defaultSize={58} minSize={30} className="min-w-0">
+            <div className="flex flex-col gap-4 pr-2 h-full overflow-hidden">
+              <div className="flex-1 min-h-0 overflow-y-auto pr-1 flex flex-col gap-4">
+                {step.view === 'array' && step.array && <ArrayViewRenderer view={step.array} />}
+                {step.view === 'grid' && step.grid && <GridViewRenderer view={step.grid} />}
+                <VariablesPanel vars={step.vars} />
+              </div>
+            </div>
+          </Panel>
+          <Separator className="group relative w-1 mx-2 bg-stroke hover:bg-accent active:bg-accent transition-colors cursor-col-resize">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-1 border border-stroke bg-paper2 text-muted group-hover:border-accent group-hover:text-accent transition-colors">
+              <GripVertical className="w-3 h-3" />
+            </div>
+          </Separator>
+          <Panel defaultSize={42} minSize={25} className="min-w-0">
+            <div className="flex flex-col gap-2 pl-2 h-full">
+              <div className="flex items-center gap-1 self-start">
+                {(['js', 'go'] as const).map((lang) => (
+                  <button
+                    key={lang}
+                    onClick={() => setLanguage(lang)}
+                    className={`font-mono text-[10px] tracking-[0.14em] uppercase px-3 py-1.5 border transition-colors ${
+                      language === lang
+                        ? 'border-ink bg-ink text-paper'
+                        : 'border-stroke text-muted hover:text-ink hover:border-ink'
+                    }`}
+                  >
+                    {lang === 'js' ? 'TypeScript' : 'Go'}
+                  </button>
+                ))}
+              </div>
+              <div className="flex-1 min-h-0 overflow-y-auto border border-stroke">
+                <CodePanel
+                  code={scenario.code[language]}
+                  activeLine={step.codeLine ?? 0}
+                />
+              </div>
+            </div>
+          </Panel>
+        </Group>
+      </div>
+    </div>
+  )
+}
+
+function VariablesPanel({
+  vars,
+}: {
+  vars: Array<{ label: string; value: string }>
+}) {
+  return (
+    <div className="border border-stroke">
+      <div className="px-4 py-2.5 border-b border-stroke flex items-center justify-between">
+        <span className="font-mono text-[10px] text-lab-blue tracking-[0.16em] uppercase">
+          Variables
+        </span>
+        <span className="font-mono text-[10px] text-faint tracking-[0.06em]">
+          {vars.length} tracked
+        </span>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 divide-y divide-stroke sm:divide-y-0 sm:divide-x lg:divide-y lg:divide-x-0 xl:divide-y-0 xl:divide-x">
+        {vars.map((v) => (
+          <div
+            key={v.label}
+            className="flex items-baseline justify-between gap-3 px-4 py-2 min-w-0"
+          >
+            <span className="font-mono text-[10px] text-muted tracking-[0.1em] uppercase whitespace-nowrap">
+              {v.label}
+            </span>
+            <span className="font-mono text-[12px] text-ink text-right truncate min-w-0">
+              {v.value}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function CodeColumn({
+  language,
+  setLanguage,
+  code,
+  activeLine,
+}: {
+  language: AlgoLanguage
+  setLanguage: (lang: AlgoLanguage) => void
+  code: string[]
+  activeLine: number
+}) {
+  return (
+    <div className="flex flex-col gap-2 min-w-0">
+      <div className="flex items-center gap-1 self-start">
+        {(['js', 'go'] as const).map((lang) => (
+          <button
+            key={lang}
+            onClick={() => setLanguage(lang)}
+            className={`font-mono text-[10px] tracking-[0.14em] uppercase px-3 py-1.5 border transition-colors ${
+              language === lang
+                ? 'border-ink bg-ink text-paper'
+                : 'border-stroke text-muted hover:text-ink hover:border-ink'
+            }`}
+          >
+            {lang === 'js' ? 'TypeScript' : 'Go'}
+          </button>
+        ))}
+      </div>
+      <CodePanel code={code} activeLine={activeLine} />
     </div>
   )
 }

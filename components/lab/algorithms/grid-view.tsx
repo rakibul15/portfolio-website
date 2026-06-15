@@ -8,10 +8,10 @@ interface GridViewProps {
 }
 
 const CELL_STYLE: Record<GridCellState, string> = {
-  water: 'bg-paper2 border-stroke text-faint',
+  water: 'bg-lab-blue-soft border-lab-blue/30 text-lab-blue',
   land: 'bg-paper3 border-stroke2 text-ink',
-  visiting: 'bg-accent border-accent text-paper',
-  visited: 'bg-ink border-ink text-paper',
+  visiting: 'bg-lab-amber border-lab-amber text-paper',
+  visited: 'bg-lab-emerald border-lab-emerald text-paper',
 }
 
 const CELL_LABEL: Record<GridCellState, string> = {
@@ -56,7 +56,7 @@ export function GridViewRenderer({ view }: GridViewProps) {
       {/* Queue */}
       <div className="border border-stroke bg-paper">
         <div className="px-3 py-2 border-b border-stroke flex items-center justify-between">
-          <span className="font-mono text-[10px] text-accent tracking-[0.16em] uppercase">
+          <span className="font-mono text-[10px] text-lab-amber tracking-[0.16em] uppercase">
             BFS Queue
           </span>
           <span className="font-mono text-[10px] text-faint tracking-[0.06em]">
@@ -75,7 +75,7 @@ export function GridViewRenderer({ view }: GridViewProps) {
                 initial={{ opacity: 0, x: -6 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.25 }}
-                className="font-mono text-[10px] tracking-[0.06em] border border-ink bg-paper text-ink px-2 py-1"
+                className="font-mono text-[10px] tracking-[0.06em] border border-lab-amber bg-lab-amber-soft text-lab-amber px-2 py-1"
               >
                 ({p.r}, {p.c})
               </motion.span>
@@ -87,16 +87,16 @@ export function GridViewRenderer({ view }: GridViewProps) {
       {/* Legend */}
       <div className="mt-4 flex flex-wrap gap-3 font-mono text-[10px] text-muted tracking-[0.04em]">
         <span className="flex items-center gap-1.5">
-          <span className="inline-block w-3 h-3 border border-stroke bg-paper2" /> water
+          <span className="inline-block w-3 h-3 border border-lab-blue/30 bg-lab-blue-soft" /> water
         </span>
         <span className="flex items-center gap-1.5">
           <span className="inline-block w-3 h-3 border border-stroke2 bg-paper3" /> land
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="inline-block w-3 h-3 border border-accent bg-accent" /> in queue / current
+          <span className="inline-block w-3 h-3 border border-lab-amber bg-lab-amber" /> in queue / current
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="inline-block w-3 h-3 border border-ink bg-ink" /> visited
+          <span className="inline-block w-3 h-3 border border-lab-emerald bg-lab-emerald" /> visited
         </span>
       </div>
     </div>

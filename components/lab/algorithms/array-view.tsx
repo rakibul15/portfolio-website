@@ -9,19 +9,24 @@ interface ArrayViewProps {
 
 const CELL_STATE: Record<NonNullable<ArrayView['cells'][number]['state']>, string> = {
   normal: 'bg-paper border-stroke text-ink',
-  eliminated: 'bg-paper2 border-stroke text-faint line-through opacity-60',
-  found: 'bg-ink border-ink text-paper',
+  eliminated: 'bg-paper2 border-stroke text-faint line-through opacity-50',
+  found: 'bg-lab-emerald border-lab-emerald text-paper',
 }
 
+// Pointers get distinct colors so the user can track multiple pointers on
+// the same array without confusion.
+//   accent (red)  → "left" / primary pointer
+//   ink           → "middle" / current position
+//   muted         → "right" / secondary
 const POINTER_TONE: Record<'accent' | 'ink' | 'muted', string> = {
-  accent: 'text-accent border-accent',
-  ink: 'text-ink border-ink',
-  muted: 'text-muted border-stroke2',
+  accent: 'text-lab-amber border-lab-amber bg-paper',
+  ink: 'text-lab-blue border-lab-blue bg-paper',
+  muted: 'text-lab-purple border-lab-purple bg-paper',
 }
 
 const HIGHLIGHT_TONE: Record<'accent' | 'ink' | 'paper3', string> = {
-  accent: 'bg-accent/15 border-accent',
-  ink: 'bg-ink/8 border-ink',
+  accent: 'bg-lab-amber-soft border-lab-amber',
+  ink: 'bg-lab-blue-soft border-lab-blue',
   paper3: 'bg-paper3 border-stroke2',
 }
 
