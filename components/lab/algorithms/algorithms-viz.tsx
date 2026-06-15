@@ -52,8 +52,8 @@ export function AlgorithmsViz() {
   const prev = () => setStepIndex((i) => Math.max(i - 1, 0))
 
   return (
-    <div className="flex flex-col gap-8 lg:gap-10">
-      {/* Scenario picker */}
+    <div className="flex flex-col gap-6">
+      {/* Scenario picker + blurb + complexity (compact header) */}
       <div className="flex flex-wrap gap-2">
         {scenarios.map((sc, i) => (
           <button
@@ -70,35 +70,13 @@ export function AlgorithmsViz() {
         ))}
       </div>
 
-      <p className="text-[14px] text-muted leading-[1.75] font-light max-w-[680px] -mt-4">
+      <p className="text-[14px] text-muted leading-[1.75] font-light max-w-[680px] -mt-2">
         {scenario.blurb}
       </p>
 
-      {/* Complexity */}
+      {/* Controls (compact, full width) */}
       <div className="border border-stroke">
-        <div className="grid grid-cols-2 divide-x divide-stroke">
-          <div className="px-4 py-3">
-            <div className="font-mono text-[10px] text-faint tracking-[0.16em] uppercase">
-              Time complexity
-            </div>
-            <div className="font-serif text-[20px] font-black tracking-tight mt-1">
-              {scenario.complexity.time}
-            </div>
-          </div>
-          <div className="px-4 py-3">
-            <div className="font-mono text-[10px] text-faint tracking-[0.16em] uppercase">
-              Space complexity
-            </div>
-            <div className="font-serif text-[20px] font-black tracking-tight mt-1">
-              {scenario.complexity.space}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Controls */}
-      <div className="border border-stroke">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-4 py-3 border-b border-stroke">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-4 py-3 border-b border-stroke">
           <div className="flex items-center gap-1.5">
             <button
               onClick={() => {
@@ -148,7 +126,18 @@ export function AlgorithmsViz() {
             </button>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 flex-wrap">
+            <div className="flex items-center gap-3 font-mono text-[10px] text-faint tracking-[0.06em]">
+              <span>
+                <span className="text-muted">time:</span>{' '}
+                <span className="text-ink">{scenario.complexity.time}</span>
+              </span>
+              <span className="text-stroke2">·</span>
+              <span>
+                <span className="text-muted">space:</span>{' '}
+                <span className="text-ink">{scenario.complexity.space}</span>
+              </span>
+            </div>
             <div className="flex items-center gap-1.5">
               <span className="font-mono text-[10px] text-faint tracking-[0.1em] uppercase mr-1">
                 Speed
@@ -185,39 +174,46 @@ export function AlgorithmsViz() {
         </div>
       </div>
 
-      {/* View renderer */}
-      {step.view === 'array' && step.array && <ArrayViewRenderer view={step.array} />}
-      {step.view === 'grid' && step.grid && <GridViewRenderer view={step.grid} />}
+      {/* Two-column layout: viz + variables on left, code on right (sticky) */}
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_minmax(360px,440px)] gap-6 items-start">
+        {/* LEFT: View + Variables */}
+        <div className="flex flex-col gap-4 min-w-0">
+          {step.view === 'array' && step.array && <ArrayViewRenderer view={step.array} />}
+          {step.view === 'grid' && step.grid && <GridViewRenderer view={step.grid} />}
 
-      {/* Variables panel */}
-      <div className="border border-stroke">
-        <div className="px-4 py-3 border-b border-stroke flex items-center justify-between">
-          <span className="font-mono text-[10px] text-accent tracking-[0.16em] uppercase">
-            Variables
-          </span>
-          <span className="font-mono text-[10px] text-faint tracking-[0.06em]">
-            {step.vars.length} tracked
-          </span>
-        </div>
-        <div className="divide-y divide-stroke">
-          {step.vars.map((v) => (
-            <div
-              key={v.label}
-              className="flex items-baseline justify-between gap-4 px-4 py-2.5"
-            >
-              <span className="font-mono text-[10px] text-muted tracking-[0.1em] uppercase whitespace-nowrap">
-                {v.label}
+          {/* Variables — compact, inline with the visualization */}
+          <div className="border border-stroke">
+            <div className="px-4 py-2.5 border-b border-stroke flex items-center justify-between">
+              <span className="font-mono text-[10px] text-accent tracking-[0.16em] uppercase">
+                Variables
               </span>
-              <span className="font-mono text-[12px] text-ink text-right truncate">
-                {v.value}
+              <span className="font-mono text-[10px] text-faint tracking-[0.06em]">
+                {step.vars.length} tracked
               </span>
             </div>
-          ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 divide-y divide-stroke sm:divide-y-0 sm:divide-x lg:divide-y lg:divide-x-0 xl:divide-y-0 xl:divide-x">
+              {step.vars.map((v) => (
+                <div
+                  key={v.label}
+                  className="flex items-baseline justify-between gap-3 px-4 py-2 min-w-0"
+                >
+                  <span className="font-mono text-[10px] text-muted tracking-[0.1em] uppercase whitespace-nowrap">
+                    {v.label}
+                  </span>
+                  <span className="font-mono text-[12px] text-ink text-right truncate min-w-0">
+                    {v.value}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT: Code panel — sticky on desktop so it stays in view */}
+        <div className="lg:sticky lg:top-20 lg:self-start min-w-0">
+          <CodePanel code={scenario.code} activeLine={step.codeLine ?? 0} />
         </div>
       </div>
-
-      {/* Code */}
-      <CodePanel code={scenario.code} activeLine={step.codeLine ?? 0} />
     </div>
   )
 }
