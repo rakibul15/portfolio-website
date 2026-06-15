@@ -101,6 +101,14 @@ const visualizers: Omit<VizCardProps, 'index' | 'isInView'>[] = [
     href: '/lab/heap',
     status: 'live',
   },
+  {
+    num: '13',
+    name: 'Graph',
+    sub: 'BFS, DFS, topological sort (Kahn), cycle detection (3-color DFS) — TS + Go',
+    tags: ['Data Structures', 'Graphs'],
+    href: '/lab/graph',
+    status: 'live',
+  },
 ]
 
 const ease = [0.25, 0.1, 0.25, 1] as const
