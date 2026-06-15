@@ -48,10 +48,10 @@ const visualizers: Omit<VizCardProps, 'index' | 'isInView'>[] = [
   {
     num: '06',
     name: 'Stacking Context',
-    sub: 'Why your z-index isn’t working — visualize the stacking context tree',
+    sub: 'Why your z-index: 9999 isn’t working — four scenarios showing the trap and the portal fix',
     tags: ['CSS', 'Layout'],
     href: '/lab/stacking-context',
-    status: 'soon',
+    status: 'live',
   },
   {
     num: '07',
