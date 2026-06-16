@@ -76,6 +76,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Easy',
     leetcodeUrl: 'https://leetcode.com/problems/best-time-to-buy-and-sell-stock/',
     approach: 'Track min-so-far while scanning; max profit = price − min seen before.',
+    vizLink: '/lab/algorithms',
     code: {
       js: `function maxProfit(prices) {
   let min = Infinity, best = 0
@@ -109,6 +110,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Easy',
     leetcodeUrl: 'https://leetcode.com/problems/contains-duplicate/',
     approach: 'Set membership check on each element. Return true on first repeat.',
+    vizLink: '/lab/algorithms',
     code: {
       js: `function containsDuplicate(nums) {
   const seen = new Set()
@@ -206,6 +208,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/maximum-product-subarray/',
     approach: 'Track BOTH max and min ending here — a negative number swaps them.',
+    vizLink: '/lab/dp',
     code: {
       js: `function maxProduct(nums) {
   let cur_max = nums[0], cur_min = nums[0], best = nums[0]
@@ -247,6 +250,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/',
     approach: 'Binary search: compare mid to right — if mid > right, min is to the right; else mid or left.',
+    vizLink: '/lab/algorithms',
     code: {
       js: `function findMin(nums) {
   let lo = 0, hi = nums.length - 1
@@ -281,6 +285,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/search-in-rotated-sorted-array/',
     approach: 'Modified binary search: at mid, one half is always sorted. Check which, then decide.',
+    vizLink: '/lab/algorithms',
     code: {
       js: `function search(nums, target) {
   let lo = 0, hi = nums.length - 1
@@ -330,6 +335,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/3sum/',
     approach: 'Sort, then for each i use two pointers (l, r) on the remainder. Skip duplicates.',
+    vizLink: '/lab/algorithms',
     code: {
       js: `function threeSum(nums) {
   nums.sort((a, b) => a - b)
@@ -394,6 +400,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/container-with-most-water/',
     approach: 'Two pointers at ends; move the shorter side inward — the longer side cannot improve.',
+    vizLink: '/lab/algorithms',
     code: {
       js: `function maxArea(h) {
   let l = 0, r = h.length - 1, best = 0
@@ -478,6 +485,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Easy',
     leetcodeUrl: 'https://leetcode.com/problems/counting-bits/',
     approach: 'DP: bits[i] = bits[i >> 1] + (i & 1).',
+    vizLink: '/lab/dp',
     code: {
       js: `function countBits(n) {
   const dp = new Array(n + 1).fill(0)
@@ -503,6 +511,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Easy',
     leetcodeUrl: 'https://leetcode.com/problems/missing-number/',
     approach: 'XOR all indices 0..n with all values — pairs cancel, the missing one survives.',
+    vizLink: '/lab/algorithms',
     code: {
       js: `function missingNumber(nums) {
   let x = nums.length
@@ -581,6 +590,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/coin-change/',
     approach: 'dp[a] = min(dp[a-c] + 1) over coins c. Initialize Infinity; check final.',
+    vizLink: '/lab/dp',
     code: {
       js: `function coinChange(coins, amount) {
   const dp = new Array(amount + 1).fill(Infinity)
@@ -619,6 +629,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/longest-increasing-subsequence/',
     approach: 'Patience sorting: maintain `tails`, binary search for replace position. O(n log n).',
+    vizLink: '/lab/dp',
     code: {
       js: `function lengthOfLIS(nums) {
   const tails = []
@@ -656,6 +667,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/longest-common-subsequence/',
     approach: '2D DP: dp[i][j] = (match) dp[i-1][j-1] + 1 OR max(dp[i-1][j], dp[i][j-1]).',
+    vizLink: '/lab/dp',
     code: {
       js: `function longestCommonSubsequence(a, b) {
   const m = a.length, n = b.length
@@ -693,6 +705,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/word-break/',
     approach: "dp[i] = true if s[0..i] is breakable. For each i, scan j<i checking dp[j] && dict has s[j..i].",
+    vizLink: '/lab/dp',
     code: {
       js: `function wordBreak(s, words) {
   const set = new Set(words), n = s.length
@@ -728,6 +741,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/combination-sum/',
     approach: 'Backtracking: at each step pick a coin >= last (avoid duplicates), recurse.',
+    vizLink: '/lab/dp',
     code: {
       js: `function combinationSum(cands, target) {
   cands.sort((a, b) => a - b)
@@ -807,6 +821,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/house-robber-ii/',
     approach: 'Two passes of House Robber: exclude first OR exclude last. Take the max.',
+    vizLink: '/lab/dp',
     code: {
       js: `function rob(nums) {
   if (nums.length === 1) return nums[0]
@@ -849,6 +864,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/decode-ways/',
     approach: 'dp[i] = (s[i-1]≠"0" ? dp[i-1] : 0) + (10..26? dp[i-2] : 0).',
+    vizLink: '/lab/dp',
     code: {
       js: `function numDecodings(s) {
   const n = s.length
@@ -892,6 +908,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/unique-paths/',
     approach: 'dp[i][j] = dp[i-1][j] + dp[i][j-1]. Or just one row (rolling).',
+    vizLink: '/lab/dp',
     code: {
       js: `function uniquePaths(m, n) {
   const row = new Array(n).fill(1)
@@ -920,6 +937,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/jump-game/',
     approach: 'Greedy: track farthest reachable. If i > reach, fail.',
+    vizLink: '/lab/dp',
     code: {
       js: `function canJump(nums) {
   let reach = 0
@@ -1052,6 +1070,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/pacific-atlantic-water-flow/',
     approach: 'Reverse-flow DFS from each ocean. Cells reachable from BOTH sets are the answer.',
+    vizLink: '/lab/graph',
     code: {
       js: `function pacificAtlantic(h) {
   const m = h.length, n = h[0].length
@@ -1166,6 +1185,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/longest-consecutive-sequence/',
     approach: 'Put all in Set. For each x WHERE x-1 not in set (start of a run), count consecutive.',
+    vizLink: '/lab/algorithms',
     code: {
       js: `function longestConsecutive(nums) {
   const set = new Set(nums)
@@ -1213,6 +1233,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/',
     approach: 'Union-Find. Each edge unions; count distinct roots.',
+    vizLink: '/lab/graph',
     code: {
       js: `function countComponents(n, edges) {
   const par = Array.from({length: n}, (_, i) => i)
@@ -1492,6 +1513,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Easy',
     leetcodeUrl: 'https://leetcode.com/problems/merge-two-sorted-lists/',
     approach: 'Dummy head + tail pointer. Pick smaller, advance, repeat.',
+    vizLink: '/lab/linked-list',
     code: {
       js: `function mergeTwoLists(a, b) {
   const dummy = { next: null }; let tail = dummy
@@ -1577,6 +1599,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/remove-nth-node-from-end-of-list/',
     approach: 'Two pointers, gap of N. Move both until fast hits end; slow now points to predecessor.',
+    vizLink: '/lab/linked-list',
     code: {
       js: `function removeNthFromEnd(head, n) {
   const dummy = { next: head }; let fast = dummy, slow = dummy
@@ -1608,6 +1631,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/reorder-list/',
     approach: 'Find middle (slow/fast). Reverse second half. Interleave the two halves.',
+    vizLink: '/lab/linked-list',
     code: {
       js: `function reorderList(head) {
   if (!head) return
@@ -1775,6 +1799,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/word-search/',
     approach: 'DFS from each cell. Mark visited (temp # then restore). Backtrack on mismatch.',
+    vizLink: '/lab/graph',
     code: {
       js: `function exist(board, word) {
   const m = board.length, n = board[0].length
@@ -1867,6 +1892,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/longest-repeating-character-replacement/',
     approach: 'Sliding window. Track max-count. If window − maxCount > k, shrink left.',
+    vizLink: '/lab/algorithms',
     code: {
       js: `function characterReplacement(s, k) {
   const count = new Array(26).fill(0); let l = 0, maxF = 0, best = 0
@@ -1907,6 +1933,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Hard',
     leetcodeUrl: 'https://leetcode.com/problems/minimum-window-substring/',
     approach: 'Sliding window + need-count map. Expand right; when valid, shrink left and record best.',
+    vizLink: '/lab/algorithms',
     code: {
       js: `function minWindow(s, t) {
   const need = new Map()
@@ -1965,6 +1992,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Easy',
     leetcodeUrl: 'https://leetcode.com/problems/valid-anagram/',
     approach: 'Count frequencies in one pass; decrement with the other; nonzero → false.',
+    vizLink: '/lab/algorithms',
     code: {
       js: `function isAnagram(s, t) {
   if (s.length !== t.length) return false
@@ -1994,6 +2022,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/group-anagrams/',
     approach: 'Key each word by its sorted characters (or by count tuple). Bucket into a Map.',
+    vizLink: '/lab/algorithms',
     code: {
       js: `function groupAnagrams(strs) {
   const m = new Map()
@@ -2032,6 +2061,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Easy',
     leetcodeUrl: 'https://leetcode.com/problems/valid-parentheses/',
     approach: 'Stack: push openings; on closer, pop and check match. Empty at end = valid.',
+    vizLink: '/lab/algorithms',
     code: {
       js: `function isValid(s) {
   const stack = [], match = { ')': '(', ']': '[', '}': '{' }
@@ -2072,6 +2102,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Easy',
     leetcodeUrl: 'https://leetcode.com/problems/valid-palindrome/',
     approach: 'Two pointers; skip non-alphanumeric; compare lowercase.',
+    vizLink: '/lab/algorithms',
     code: {
       js: `function isPalindrome(s) {
   let l = 0, r = s.length - 1
@@ -2116,6 +2147,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/longest-palindromic-substring/',
     approach: 'Expand around each center (odd and even). Track best.',
+    vizLink: '/lab/algorithms',
     code: {
       js: `function longestPalindrome(s) {
   let start = 0, len = 0
@@ -2163,6 +2195,7 @@ export const problems: Blind75Problem[] = [
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/palindromic-substrings/',
     approach: 'Expand around each center; count every expansion that stays palindromic.',
+    vizLink: '/lab/algorithms',
     code: {
       js: `function countSubstrings(s) {
   let count = 0
@@ -2237,6 +2270,7 @@ func decode(str string) []string {
     difficulty: 'Easy',
     leetcodeUrl: 'https://leetcode.com/problems/maximum-depth-of-binary-tree/',
     approach: 'Recurse: 1 + max(left, right). Null returns 0.',
+    vizLink: '/lab/bst',
     code: {
       js: `function maxDepth(root) {
   return root ? 1 + Math.max(maxDepth(root.left), maxDepth(root.right)) : 0
@@ -2259,6 +2293,7 @@ func decode(str string) []string {
     difficulty: 'Easy',
     leetcodeUrl: 'https://leetcode.com/problems/same-tree/',
     approach: 'Recurse: both null OK; one null fail; values match AND children match.',
+    vizLink: '/lab/bst',
     code: {
       js: `function isSameTree(p, q) {
   if (!p && !q) return true
@@ -2284,6 +2319,7 @@ func decode(str string) []string {
     difficulty: 'Easy',
     leetcodeUrl: 'https://leetcode.com/problems/invert-binary-tree/',
     approach: 'Swap left/right at each node, then recurse.',
+    vizLink: '/lab/bst',
     code: {
       js: `function invertTree(root) {
   if (!root) return null
@@ -2309,6 +2345,7 @@ func decode(str string) []string {
     difficulty: 'Hard',
     leetcodeUrl: 'https://leetcode.com/problems/binary-tree-maximum-path-sum/',
     approach: 'DFS returning best one-sided gain. Update global with left+root+right path.',
+    vizLink: '/lab/bst',
     code: {
       js: `function maxPathSum(root) {
   let best = -Infinity
@@ -2355,6 +2392,7 @@ func decode(str string) []string {
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/binary-tree-level-order-traversal/',
     approach: 'BFS by level: drain current queue size, collect, push children.',
+    vizLink: '/lab/algorithms',
     code: {
       js: `function levelOrder(root) {
   if (!root) return []
@@ -2405,6 +2443,7 @@ func decode(str string) []string {
     difficulty: 'Hard',
     leetcodeUrl: 'https://leetcode.com/problems/serialize-and-deserialize-binary-tree/',
     approach: 'Preorder DFS with "null" markers. Decode with a queue/iterator.',
+    vizLink: '/lab/bst',
     code: {
       js: `function serialize(root) {
   const out = []
@@ -2464,6 +2503,7 @@ func deserialize(data string) *TreeNode {
     difficulty: 'Easy',
     leetcodeUrl: 'https://leetcode.com/problems/subtree-of-another-tree/',
     approach: 'For each node of root, check if same as subRoot. Use isSameTree helper.',
+    vizLink: '/lab/bst',
     code: {
       js: `function isSubtree(root, sub) {
   const same = (a, b) => !a && !b ? true : (!a || !b || a.val !== b.val ? false : same(a.left, b.left) && same(a.right, b.right))
@@ -2494,6 +2534,7 @@ func deserialize(data string) *TreeNode {
     difficulty: 'Medium',
     leetcodeUrl: 'https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/',
     approach: 'First preorder = root. Find it in inorder → split into left/right subtrees. Recurse.',
+    vizLink: '/lab/bst',
     code: {
       js: `function buildTree(pre, ino) {
   const idx = new Map(ino.map((v, i) => [v, i]))
@@ -2605,6 +2646,7 @@ func deserialize(data string) *TreeNode {
     difficulty: 'Easy',
     leetcodeUrl: 'https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/',
     approach: 'Walk down. If both < root → left; both > root → right; else current is LCA.',
+    vizLink: '/lab/bst',
     code: {
       js: `function lowestCommonAncestor(root, p, q) {
   while (root) {
@@ -2727,6 +2769,7 @@ func (d *WordDictionary) Search(w string) bool {
     difficulty: 'Hard',
     leetcodeUrl: 'https://leetcode.com/problems/word-search-ii/',
     approach: 'Build trie of words. DFS the board, walking the trie. Prune branches on miss.',
+    vizLink: '/lab/graph',
     code: {
       js: `function findWords(board, words) {
   const root = {}

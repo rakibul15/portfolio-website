@@ -1094,4 +1094,181 @@ const ms: AlgoScenario = {
   })(),
 }
 
-export const scenarios: AlgoScenario[] = [sw, tp, bs, bfs, ts, kad, dfs, ms]
+// ---------------------------------------------------------------------------
+// Scenario 9 — Expand Around Center (Longest Palindromic Substring)
+// ---------------------------------------------------------------------------
+
+const eac: AlgoScenario = {
+  id: 'expand-around-center',
+  name: 'Expand around center',
+  view: 'array',
+  blurb:
+    'Every palindrome has a center — either a single character (odd length) or a gap between two characters (even length). For each of the 2n−1 possible centers, expand outward while s[l] === s[r]. The longest run wins.',
+  complexity: { time: 'O(n²)', space: 'O(1)' },
+  code: {
+    js: [
+      `function longestPalindrome(s: string): string {`,
+      `  let best = ''`,
+      `  for (let i = 0; i < s.length; i++) {`,
+      `    const odd = expand(s, i, i)`,
+      `    const even = expand(s, i, i + 1)`,
+      `    if (odd.length > best.length) best = odd`,
+      `    if (even.length > best.length) best = even`,
+      `  }`,
+      `  return best`,
+      `}`,
+      `function expand(s: string, l: number, r: number): string {`,
+      `  while (l >= 0 && r < s.length && s[l] === s[r]) { l--; r++ }`,
+      `  return s.slice(l + 1, r)`,
+      `}`,
+    ],
+    go: [
+      `func longestPalindrome(s string) string {`,
+      `  best := ""`,
+      `  for i := 0; i < len(s); i++ {`,
+      `    odd := expand(s, i, i)`,
+      `    even := expand(s, i, i+1)`,
+      `    if len(odd) > len(best) { best = odd }`,
+      `    if len(even) > len(best) { best = even }`,
+      `  }`,
+      `  return best`,
+      `}`,
+      `func expand(s string, l, r int) string {`,
+      `  for l >= 0 && r < len(s) && s[l] == s[r] { l--; r++ }`,
+      `  return s[l+1 : r]`,
+      `}`,
+    ],
+  },
+  steps: (() => {
+    const s = 'babad'
+    const cells = arrCells(s.split(''))
+
+    const make = (
+      l: number,
+      r: number,
+      bestRange: [number, number] | null,
+      vars: AlgoVar[],
+      note: string,
+      codeLine?: number,
+    ): AlgoStep => {
+      const pointers: Pointer[] = []
+      if (l === r && l >= 0 && l < s.length) {
+        pointers.push({ id: 'c', label: 'center', index: l, tone: 'accent' })
+      } else {
+        if (l >= 0 && l < s.length) pointers.push({ id: 'l', label: 'l', index: l, tone: 'accent' })
+        if (r >= 0 && r < s.length) pointers.push({ id: 'r', label: 'r', index: r, tone: 'ink' })
+      }
+      const highlights: Highlight[] = []
+      if (bestRange) highlights.push({ from: bestRange[0], to: bestRange[1], tone: 'paper3', label: 'best' })
+      return {
+        view: 'array',
+        array: { cells, pointers, highlights },
+        vars,
+        note,
+        codeLine,
+      }
+    }
+
+    const out: AlgoStep[] = []
+    out.push(make(-1, -1, null, [{ label: 'best', value: '""' }], 'Input: "babad". Best so far: empty.', 2))
+    // i=0 odd center
+    out.push(make(0, 0, [0, 0], [{ label: 'center', value: '0 (odd)' }, { label: 'best', value: '"b"' }], 'Center i=0, odd. l=r=0. s[0]="b". Match (trivial). Length 1.', 4))
+    out.push(make(-1, 1, [0, 0], [{ label: 'attempt', value: 'l=-1' }, { label: 'best', value: '"b"' }], 'Try to expand: l=-1 out of bounds. Stop. Run="b".', 12))
+    // i=0 even
+    out.push(make(0, 1, [0, 0], [{ label: 'center', value: '0 (even)' }, { label: 'compare', value: 's[0]≠s[1]' }], 'Center i=0, even. l=0, r=1. s[0]="b" ≠ s[1]="a". Stop immediately.', 5))
+    // i=1 odd → "bab"
+    out.push(make(1, 1, [0, 0], [{ label: 'center', value: '1 (odd)' }], 'Center i=1, odd. l=r=1. s[1]="a". Expand outward.', 4))
+    out.push(make(0, 2, [0, 2], [{ label: 'expand', value: 's[0]=s[2]="b"' }, { label: 'best', value: '"bab"' }], 'l=0, r=2. s[0]="b" = s[2]="b". Run="bab" (length 3). Best updated.', 12))
+    out.push(make(-1, 3, [0, 2], [{ label: 'stop', value: 'l=-1' }], 'Try l=-1: out of bounds. Stop. Final odd run="bab".', 12))
+    // i=2 odd → "aba"
+    out.push(make(2, 2, [0, 2], [{ label: 'center', value: '2 (odd)' }], 'Center i=2, odd. l=r=2. s[2]="b".', 4))
+    out.push(make(1, 3, [0, 2], [{ label: 'expand', value: 's[1]=s[3]="a"' }, { label: 'run', value: '"aba" (3)' }], 'l=1, r=3. s[1]="a" = s[3]="a". Run="aba". Same length as best — keep "bab".', 12))
+    out.push(make(0, 4, [0, 2], [{ label: 'compare', value: 's[0]="b" ≠ s[4]="d"' }], 'l=0, r=4. Mismatch. Stop.', 12))
+    out.push(make(-1, -1, [0, 2], [{ label: 'best', value: '"bab"' }], 'Remaining centers can\'t beat length 3. Return "bab".', 9))
+    return out
+  })(),
+}
+
+// ---------------------------------------------------------------------------
+// Scenario 10 — Stack (Valid Parentheses)
+// ---------------------------------------------------------------------------
+
+const stk: AlgoScenario = {
+  id: 'stack-parens',
+  name: 'Stack — valid parens',
+  view: 'array',
+  blurb:
+    'Scan left-to-right. Push every opener onto a stack. On a closer, the top of the stack MUST be its matching opener — pop and check. The string is valid iff the stack ends empty.',
+  complexity: { time: 'O(n)', space: 'O(n)' },
+  code: {
+    js: [
+      `function isValid(s: string): boolean {`,
+      `  const stack: string[] = []`,
+      `  const pair: Record<string, string> = { ')': '(', ']': '[', '}': '{' }`,
+      `  for (const c of s) {`,
+      `    if (c in pair) {`,
+      `      if (stack.pop() !== pair[c]) return false`,
+      `    } else {`,
+      `      stack.push(c)`,
+      `    }`,
+      `  }`,
+      `  return stack.length === 0`,
+      `}`,
+    ],
+    go: [
+      `func isValid(s string) bool {`,
+      `  stack := []byte{}`,
+      `  pair := map[byte]byte{')': '(', ']': '[', '}': '{'}`,
+      `  for i := 0; i < len(s); i++ {`,
+      `    c := s[i]`,
+      `    if open, ok := pair[c]; ok {`,
+      `      if len(stack) == 0 || stack[len(stack)-1] != open { return false }`,
+      `      stack = stack[:len(stack)-1]`,
+      `    } else {`,
+      `      stack = append(stack, c)`,
+      `    }`,
+      `  }`,
+      `  return len(stack) == 0`,
+      `}`,
+    ],
+  },
+  steps: (() => {
+    const s = '({[]})'
+    const cells = arrCells(s.split(''))
+
+    const make = (
+      i: number,
+      stack: string[],
+      verdict: string,
+      note: string,
+      codeLine?: number,
+    ): AlgoStep => ({
+      view: 'array',
+      array: {
+        cells,
+        pointers: i >= 0 && i < s.length ? [{ id: 'i', label: 'i', index: i, tone: 'ink' }] : [],
+        highlights: [],
+      },
+      vars: [
+        { label: 'i', value: i >= 0 ? `${i} (= "${s[i]}")` : '—' },
+        { label: 'stack', value: stack.length ? `[${stack.join(', ')}]` : '[]' },
+        { label: 'verdict', value: verdict },
+      ],
+      note,
+      codeLine,
+    })
+
+    return [
+      make(-1, [], 'start', 'Input "({[]})". Stack empty.', 1),
+      make(0, ['('], 'push', 'i=0, "(": opener. Push. Stack = [(].', 8),
+      make(1, ['(', '{'], 'push', 'i=1, "{": opener. Push. Stack = [(, {].', 8),
+      make(2, ['(', '{', '['], 'push', 'i=2, "[": opener. Push. Stack = [(, {, [].', 8),
+      make(3, ['(', '{'], 'pop ✓ match', 'i=3, "]": closer. Top is "[" — matches. Pop. Stack = [(, {].', 6),
+      make(4, ['('], 'pop ✓ match', 'i=4, "}": closer. Top is "{" — matches. Pop. Stack = [(].', 6),
+      make(5, [], 'pop ✓ match', 'i=5, ")": closer. Top is "(" — matches. Pop. Stack = [].', 6),
+      make(-1, [], 'stack empty → valid', 'Loop done. Stack empty. Return true.', 11),
+    ]
+  })(),
+}
+
+export const scenarios: AlgoScenario[] = [sw, tp, bs, bfs, ts, kad, dfs, ms, eac, stk]
