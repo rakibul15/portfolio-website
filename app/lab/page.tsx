@@ -170,6 +170,14 @@ const visualizers: Omit<VizCardProps, 'index' | 'isInView'>[] = [
     href: '/lab/dp',
     status: 'live',
   },
+  {
+    num: '21',
+    name: 'Blind 75',
+    sub: 'The canonical LeetCode interview list — all 75 problems with TS + JS + Go solutions and viz links',
+    tags: ['DSA', 'LeetCode'],
+    href: '/lab/blind-75',
+    status: 'live',
+  },
 ]
 
 const ease = [0.25, 0.1, 0.25, 1] as const
